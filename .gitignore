@@ -1,0 +1,5 @@
+# Do not store node modules in github
+node_modules
+
+# Do not store environment variables in github
+.env
