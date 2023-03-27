@@ -1,9 +1,13 @@
 require("dotenv").config()
+const cors = require('cors')
 const express = require('express')
 const morgan = require('morgan')
 const db = require('./db')
 
 const app = express()
+
+// Allow cross-site requests
+app.use(cors())
 
 // Extract parameters into attached object
 app.use(express.json())
