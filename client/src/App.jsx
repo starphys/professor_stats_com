@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import CreateAccount from './routes/CreateAccount'
 import Home from './routes/Home'
 import ProfessorPage from './routes/ProfessorPage'
 import Results from './routes/Results'
@@ -12,6 +13,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route exact path='/' element={<Home setSearchResults={setSearchResults} />} />
+        <Route exact path='/signup' element={<CreateAccount />} />
         <Route exact path='/results' element={<Results searchResults={searchResults} setProfessor={setProfessor} />} />
         <Route exact path='/professor/:id' element={<ProfessorPage professor={professor} />} />
         <Route exact path='/review' element={<ReviewPage />} />
