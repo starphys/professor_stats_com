@@ -1,0 +1,45 @@
+.search-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #2C757A;
+  }
+
+  .results-page {
+    background-color: #2C757A;
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  .prof-page {
+    background-color: #2C757A;
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  input[type="text"], button {
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    color: #4A4A4A; /* dark gray */
+    background-color: #FFFFFF; /* white */
+    cursor: pointer;
+  }
+  
+  input[type="text"] {
+    margin-right: 10px;
+  }
+  
+  button:hover {
+    background-color: #b7c9e1; /* medium blue */
+  }
+  
+  button:active {
+    background-color: #9fb1cb; /* dark blue */
+    transform: translateY(1px);
+  }
