@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Login from '../components/Login'
-import Logout from '../components/Logout'
 import SearchBar from '../components/SearchBar'
 import '../styles/App.css'
 
@@ -41,8 +39,6 @@ function Home ({ setSearchResults }) {
     <div className='search-page'>
       <SearchBar onSearch={handleSearch} />
       {found === 'Not found' && <b>No results found, please try another search term.</b>}
-      <Logout setUserToken={(value) => console.log(value)} />
-      <Login />
     </div>
   )
 }

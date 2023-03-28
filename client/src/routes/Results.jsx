@@ -6,7 +6,6 @@ import '../styles/App.css'
 function Results ({ searchResults, setProfessor }) {
   const navigate = useNavigate()
 
-  const [choice, setChoice] = useState(null)
   const [results, setResults] = useState(searchResults)
 
   useEffect(() => {
@@ -20,7 +19,7 @@ function Results ({ searchResults, setProfessor }) {
 
   return (
     <div className='results-page'>
-      {searchResults && searchResults.map((result, index) => {
+      {results && results.map((result, index) => {
         return <Result key={index} result={result} handleChoice={handleChoice} />
       })}
     </div>
