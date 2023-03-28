@@ -25,14 +25,18 @@ app.get('/', (req, res) => {
 })
 
 // Get all professors
-app.get('/api/v1/professors', async (req, res) => {
+app.get('/api/v1/professors', (req, res) => {
     console.log("Sending professors")
+    const sql = 'SELECT * FROM professor'
+    const params  = []
     try {  
-        const {rows} = await db.query('SELECT * FROM professors')
-        res.json({
-            status:"success",
-            results: rows.length,
-            rows
+        db.all(sql, params, (err, rows) => {
+            if(err) {throw err}
+            res.json({
+                status:"success",
+                results: rows.length,
+                rows
+            })
         })
     } catch (err) {
         console.log(err)
@@ -47,11 +51,15 @@ app.get('/api/v1/professors', async (req, res) => {
 app.get('/api/v1/professors/:id', async (req, res) => {
     console.log(req.params.id)
     const { id } = req.params
+    const sql = 'SELECT * FROM professor WHERE id = $1'
+    const params = [id]
     try {  
-        const {rows} = await db.query('SELECT * FROM professors WHERE id = $1', [id])
-        res.json({
-            status:"success",
-            professor: rows[0]
+        db.all(sql, params, (err, rows) => {
+            if(err) {throw err}
+            res.json({
+                status:"success",
+                professor: rows[0]
+            })
         })
     } catch (err) {
         console.log(err)
@@ -66,13 +74,16 @@ app.get('/api/v1/professors/:id', async (req, res) => {
 app.post('/api/v1/professors', async (req, res) => {
     console.log(req.body)
     const { body } = req
-    try{
-        const results = await db.query("INSERT INTO professors (name, rating) values ($1, $2) returning *",[body.name, body.rating])
-        res.json({
-            status:"success",
-            results
+    const sql = "INSERT INTO professor (name, rating) values ($1, $2) returning *"
+    const params = [body.name, body.rating]
+    try {  
+        db.all(sql, params, (err, rows) => {
+            if(err) {throw err}
+            res.json({
+                status:"success",
+                professor: rows[0]
+            })
         })
-
     } catch (err) {
         console.log(err)
         res.json({
@@ -88,13 +99,16 @@ app.put('/api/v1/professors/:id', async (req, res) => {
     console.log(req.body)
     const { id } = req.params
     const { body } = req
-    try{
-        const results = await db.query("UPDATE professors SET name=$2, rating=$3 WHERE id=$1 returning *",[id, body.name, body.rating])
-        res.json({
-            status:"success",
-            results
+    const sql = "UPDATE professor SET name=$2, rating=$3 WHERE id=$1 returning *"
+    const params = [id, body.name, body.rating]
+    try {  
+        db.all(sql, params, (err, rows) => {
+            if(err) {throw err}
+            res.json({
+                status:"success",
+                professor: rows[0]
+            })
         })
-
     } catch (err) {
         console.log(err)
         res.json({
@@ -108,11 +122,15 @@ app.put('/api/v1/professors/:id', async (req, res) => {
 app.delete('/api/v1/professors/:id', async (req, res) => {
     console.log(req.params.id)
     const { id } = req.params
+    const sql = 'DELETE FROM professor WHERE id = $1'
+    const params = [id]
     try {  
-        const {rows} = await db.query('DELETE FROM professors WHERE id = $1', [id])
-        res.json({
-            status:"success",
-            message: `${rows[0].name} deleted.`
+        db.all(sql, params, (err, rows) => {
+            if(err) {throw err}
+            res.json({
+                status:"success",
+                message: `${rows[0].name} deleted.`
+            })
         })
     } catch (err) {
         console.log(err)
