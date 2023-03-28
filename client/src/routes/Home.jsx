@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Logout from '../components/Logout'
 import SearchBar from '../components/SearchBar'
 import '../styles/App.css'
 
@@ -15,7 +16,7 @@ function Home ({ setSearchResults }) {
       headers: { 'Content-Type': 'application/json' }
     })
       .then((response) => { return response.json() })
-      .then(data => setProfessors(data.rows))
+      .then(data => setProfessors(data.professors))
   }, [])
 
   const handleSearch = (query) => {
@@ -39,6 +40,7 @@ function Home ({ setSearchResults }) {
     <div className='search-page'>
       <SearchBar onSearch={handleSearch} />
       {found === 'Not found' && <b>No results found, please try another search term.</b>}
+      <Logout setUserToken={(value) => console.log(value)} />
     </div>
   )
 }
