@@ -68,7 +68,8 @@ const db = new sqlite3.Database('db.sqlite', (err) => {
             id integer primary key,
             first_name text not null,
             last_name text not null,
-            username text not null,
+            email text not null,
+            username text not null unique,
             p_word text not null,
             verified boolean not null default false,
             hide_flag boolean not null default false);`,
@@ -77,8 +78,8 @@ const db = new sqlite3.Database('db.sqlite', (err) => {
         // Table already created
       } else {
         // Populate initial student data
-        const insert = 'INSERT INTO student (first_name, last_name, username, p_word, verified) VALUES (?,?,?,?,?)'
-        db.run(insert, ['Fake', 'Student', 'fakestudent', 'fakepassword', true])
+        const insert = 'INSERT INTO student (first_name, last_name, email, username, p_word, verified) VALUES (?,?,?,?,?,?)'
+        db.run(insert, ['Fake', 'Student', 'fake@school.edu', 'fakestudent', 'fakepassword', true])
       }
     })
 
