@@ -275,13 +275,12 @@ app.post('/api/v1/login', async (req, res) => {
         err
       })
     } else {
-      if(rows.length > 0 && body.password === rows[0].p_word) {
+      if (rows.length > 0 && body.password === rows[0].p_word) {
         res.json({
           status: 'success',
           student: rows[0]
         })
-      }
-      else {
+      } else {
         res.json({
           status: 'failure',
           message: 'Invalid credentials'
