@@ -99,8 +99,8 @@ app.put('/api/v1/professors/:id', async (req, res) => {
     console.log(req.body)
     const { id } = req.params
     const { body } = req
-    const sql = "UPDATE professor SET name=$2, rating=$3 WHERE id=$1 returning *"
-    const params = [id, body.name, body.rating]
+    const sql = "UPDATE professor SET first_name=$2, last_name=$3 WHERE id=$1 returning *"
+    const params = [id, body.first_name, body.last_name]
     try {  
         db.all(sql, params, (err, rows) => {
             if(err) {throw err}
