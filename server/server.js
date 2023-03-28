@@ -265,8 +265,8 @@ app.delete('/api/v1/students/:id', async (req, res) => {
 // Add new student
 app.post('/api/v1/login', async (req, res) => {
   const { body } = req
-  const sql = 'SELECT * FROM student WHERE username = $1 AND p_word = $2'
-  const params = [body.username, body.password]
+  const sql = 'SELECT * FROM student WHERE username = $1'
+  const params = [body.username]
   db.all(sql, params, (err, rows) => {
     if (err) {
       res.json({
@@ -275,10 +275,18 @@ app.post('/api/v1/login', async (req, res) => {
         err
       })
     } else {
-      res.json({
-        status: 'success',
-        student: rows[0]
-      })
+      if(rows.length > 0 && body.password === rows[0].p_word) {
+        res.json({
+          status: 'success',
+          student: rows[0]
+        })
+      }
+      else {
+        res.json({
+          status: 'failure',
+          message: 'Invalid credentials'
+        })
+      }
     }
   })
 })

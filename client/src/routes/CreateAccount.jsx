@@ -1,36 +1,39 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import '../styles/App.css'
 
 function CreateAccount ({ setUserToken }) {
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [studentEmail, setStudentEmail] = useState('')
-  const [passwordMismatch, setPasswordMismatch] = useState(false)
+    const navigate = useNavigate()
 
-  const handleSignup = (e) => {
-    e.preventDefault()
-    if (password !== confirmPassword) {
-      setPasswordMismatch(true)
-    } else {
-      setPasswordMismatch(false)
-      // TODO: hash passwords
-      const student = { first_name: firstName, last_name: lastName, email: studentEmail, username, password, verified: false }
-      fetch('http://localhost:3001/api/v1/students', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(student)
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log(data)
-          setUserToken(data.student)
-        })
-        // Navigate to home page
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const [studentEmail, setStudentEmail] = useState('')
+    const [passwordMismatch, setPasswordMismatch] = useState(false)
+
+    const handleSignup = (e) => {
+        e.preventDefault()
+        if (password !== confirmPassword) {
+            setPasswordMismatch(true)
+        } else {
+            setPasswordMismatch(false)
+            // TODO: hash passwords
+            const student = { first_name: firstName, last_name: lastName, email: studentEmail, username, password, verified: false }
+            fetch('http://localhost:3001/api/v1/students', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(student)
+            })
+            .then(response => response.json())
+            .then(data => {
+                setUserToken(data.student)
+            })
+
+            navigate("/")
+        }
     }
-  }
 
   return (
     <div className='signup-container'>

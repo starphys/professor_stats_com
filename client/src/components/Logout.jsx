@@ -8,11 +8,11 @@ function Logout ({ setUserToken }) {
   const handleLogout = (e) => {
     e.preventDefault()
     setUserToken(null)
-    navigate('/')
+    navigate('/login')
   }
 
   return (
-    <button type='submit' className='logout-button' onSubmit={handleLogout}>Logout</button>
+    <button type='submit' className='logout-button' onClick={handleLogout}>Logout</button>
   )
 }
 
