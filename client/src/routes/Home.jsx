@@ -41,8 +41,6 @@ function Home ({ setSearchResults }) {
     <div className='search-page'>
       <SearchBar onSearch={handleSearch} />
       {found === 'Not found' && <b>No results found, please try another search term.</b>}
-      <Logout setUserToken={(value) => console.log(value)} />
-      <Login />
     </div>
   )
 }
