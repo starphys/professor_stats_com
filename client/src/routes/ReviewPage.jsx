@@ -1,9 +1,9 @@
 import React from 'react'
 
 const ReviewPage = () => {
-    return (
-        <div></div>
-    )
+  return (
+    <div />
+  )
 }
 
 export default ReviewPage

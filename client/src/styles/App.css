@@ -6,6 +6,20 @@
     height: 100vh;
     background-color: #2C757A;
   }
+
+  .results-page {
+    background-color: #2C757A;
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  .prof-page {
+    background-color: #2C757A;
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+  }
   
   input[type="text"], button {
     padding: 10px;
