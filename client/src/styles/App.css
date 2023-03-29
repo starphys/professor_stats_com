@@ -320,3 +320,101 @@ h2 {
 .review-text {
   font-size: 16px;
 }
+
+.review-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.review-form-header {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  color: #007f7f;
+}
+
+.review-form-group {
+  display: flex;
+  color: #007f7f;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.review-form-group-text {
+  margin-top: 15px;
+  display: flex;
+  color: #007f7f;
+  align-items: top;
+  justify-content: space-between;
+}
+
+.review-form-input {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.review-form-control {
+  margin-left: 5px;
+  font-family: 'Times New Roman', Times, serif;
+  font-size:medium;
+  /* TODO */
+}
+
+.review-form-button {
+  margin-top: 20px;
+  padding: 10px;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  border: none;
+  background-color: #008080;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.review-form-button:hover {
+  background-color: #fff;
+  color: #008080;
+  border: 1px solid #008080;
+}
+
+.review-form-button:active {
+  background-color: #dddddd;
+  color: #008080;
+  border: 1px solid #008080;
+}
+
+.review-professor-container {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.review-professor-button {
+  padding: 10px;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  border: none;
+  background-color: #008080;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.review-professor-button:hover {
+  background-color: #fff;
+  color: #008080;
+  border: 1px solid #008080;
+}
+
+.review-professor-button:active {
+  background-color: #dddddd;
+  color: #008080;
+  border: 1px solid #008080;
+}
