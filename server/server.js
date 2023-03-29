@@ -333,9 +333,9 @@ app.post('/api/v1/reviews', async (req, res) => {
       })
     } else {
       const review = rows[0]
-      const rev_sql = 'SELECT * FROM review WHERE professor_id = $1'
-      const rev_params = [body.professor]
-      db.all(rev_sql, rev_params, (err, rows) => {
+      const revSql = 'SELECT * FROM review WHERE professor_id = $1'
+      const revParams = [body.professor]
+      db.all(revSql, revParams, (err, rows) => {
         if (err) {
           res.json({
             ok: false,
@@ -354,10 +354,10 @@ app.post('/api/v1/reviews', async (req, res) => {
               sum[5] + review.quality5
             ]
           }, [0, 0, 0, 0, 0, 0]).map((element) => element / reviews.length)
-          
-          const prof_sql = 'UPDATE professor SET overall=?, quality1=?, quality2=?, quality3=?, quality4=?, quality5=? WHERE id=?'
-          const prof_params = [averages[0], averages[1], averages[2], averages[3], averages[4], averages[5], body.professor]
-          db.run(prof_sql, prof_params, (err) => {
+
+          const profSql = 'UPDATE professor SET overall=?, quality1=?, quality2=?, quality3=?, quality4=?, quality5=? WHERE id=?'
+          const profParams = [averages[0], averages[1], averages[2], averages[3], averages[4], averages[5], body.professor]
+          db.run(profSql, profParams, (err) => {
             if (err) {
               res.json({
                 ok: false,
@@ -365,9 +365,9 @@ app.post('/api/v1/reviews', async (req, res) => {
                 err
               })
             } else {
-              const final_sql = 'SELECT * FROM professor WHERE id = $1'
-              const final_params = [body.professor]
-              db.all(final_sql, final_params, (err, rows) => {
+              const finalSql = 'SELECT * FROM professor WHERE id = $1'
+              const finalParams = [body.professor]
+              db.all(finalSql, finalParams, (err, rows) => {
                 if (err) {
                   res.json({
                     ok: false,
