@@ -42,7 +42,7 @@ const db = new sqlite3.Database('db.sqlite', (err) => {
       } else {
         // Populate initial professor data
         const insert = 'INSERT INTO professor (first_name, last_name, degrees, overall, quality1, quality2, quality3, quality4, quality5) VALUES (?,?,?,?,?,?,?,?,?)'
-        db.run(insert, ['Fake', 'Professor', 'PhD Computer Science', 99, 99, 99, 99, 99, 99])
+        db.run(insert, ['Fake', 'Professor', 'PhD Computer Science', 500, 500, 500, 500, 500, 500])
       }
     })
 

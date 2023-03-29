@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import ReviewPopup from '../components/ReviewPopup'
 
-const ProfessorPage = ({ prof }) => {
+const ProfessorPage = ({ token, prof }) => {
   const { id } = useParams()
   const [professor, setProfessor] = useState(null)
   const [reviews, setReviews] = useState([])
@@ -15,14 +15,13 @@ const ProfessorPage = ({ prof }) => {
       .then(response => response.json())
       .then(data => {
         if (data.status === 'success') {
-          console.log(data)
           setProfessor(data.professor)
         } else {
         // TODO: Handle professor not found
           setProfessor(null)
         }
       })
-  }, [prof, setProfessor])
+  }, [prof, id, setProfessor])
 
   useEffect(() => {
     if (professor) {
@@ -33,20 +32,6 @@ const ProfessorPage = ({ prof }) => {
         .then(response => response.json())
         .then(data => {
           if (data.status === 'success') {
-            console.log(data)
-            // const averages = data.reviews.reduce((sum, review)=>{
-            //   return [
-            //     sum[0] + review.overall,
-            //     sum[0] + review.quality1,
-            //     sum[0] + review.quality2,
-            //     sum[0] + review.quality3,
-            //     sum[0] + review.quality4,
-            //     sum[0] + review.quality5
-            //   ]
-            // },[0,0,0,0,0,0]).map((element)=> element/data.reviews.length)
-
-            // setProfessor(professor => ({...professor, overall: averages[0], }))
-
             setReviews(data.reviews)
           } else {
           // TODO: Handle reviews not found
@@ -99,7 +84,7 @@ const ProfessorPage = ({ prof }) => {
           </div>
         </div>
       </div>
-      <ReviewPopup professor={professor} />
+      {token && token.id && <ReviewPopup token={token} professor={professor} setProfessor={setProfessor}/>}
       <h3>Reviews:</h3>
       {reviews.map((review) => (
         <div key={review.id} className='review-container'>
