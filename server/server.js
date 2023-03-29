@@ -238,7 +238,7 @@ app.put('/api/v1/student/:id', async (req, res) => {
   })
 })
 
-// Update existing student with new password
+// TODO: Update existing student with new password
 
 // Delete existing student by id
 app.delete('/api/v1/students/:id', async (req, res) => {
@@ -286,6 +286,30 @@ app.post('/api/v1/login', async (req, res) => {
           message: 'Invalid credentials'
         })
       }
+    }
+  })
+})
+
+// Access and update reviews directly
+
+// Get reviews by professor id
+app.get('/api/v1/reviews/:id', async (req, res) => {
+  const { id } = req.params
+  const sql = 'SELECT * FROM review WHERE professor_id = $1'
+  const params = [id]
+  db.all(sql, params, (err, rows) => {
+    if (err) {
+      console.log(err)
+      res.json({
+        ok: false,
+        status: 'failure',
+        err
+      })
+    } else {
+      res.json({
+        status: 'success',
+        reviews: rows
+      })
     }
   })
 })
