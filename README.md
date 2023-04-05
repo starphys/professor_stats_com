@@ -2,7 +2,7 @@
 ProfStats is a professor reviews service where students can score their past professors on several qualities. Our goal is to help students choose the professors that are right for them by aggregating more detailed information for each professor and course.
 
 To install and run:
-`git clonehttps://github.com/starphys/professor_stats_com.git`
+`git clone https://github.com/starphys/professor_stats_com.git`
 `cd professor_stats_com/server`
 `npm install`
 `npm start`
