@@ -25,7 +25,7 @@ const ProfessorPage = ({ token, prof }) => {
 
   useEffect(() => {
     if (professor) {
-      fetch(`http://localhost:3001/api/v1/reviews/${professor.id}`, {
+      fetch(`http://localhost:3001/api/v1/reviews/professor/${professor.id}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
       })
@@ -43,7 +43,7 @@ const ProfessorPage = ({ token, prof }) => {
     }
   }, [professor, setReviews])
 
-  if (!professor || !reviews) {
+  if (!professor || reviews.length < 1) {
     return <div><b>Loading</b></div>
   }
 
