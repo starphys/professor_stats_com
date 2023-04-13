@@ -1,0 +1,102 @@
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+
+function AccountPage ({ token }) {
+  const { username } = useParams()
+  const [student, setStudent] = useState(null)
+  const [reviews, setReviews] = useState([])
+
+  useEffect(() => {
+    fetch(`http://localhost:3001/api/v1/students/user/${username}`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        if (data.status === 'success') {
+          setStudent(data.student)
+        } else {
+        // TODO: Handle student not found
+          setStudent(null)
+        }
+      })
+  }, [username, setStudent])
+
+  useEffect(() => {
+    if (student) {
+      fetch(`http://localhost:3001/api/v1/reviews/student/${student.id}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'success') {
+            setReviews(data.reviews)
+          } else {
+          // TODO: Handle reviews not found
+            setReviews([])
+          }
+        })
+    } else {
+      setReviews([])
+    }
+  }, [student, setReviews])
+
+  if (!student) {
+    return <div><b>Loading</b></div>
+  }
+
+  console.log(reviews)
+  // Student is viewing own page
+  // if (token?.id === student?.id) {}
+
+  // Student is viewing other page
+  return (
+    <div className='professor-container'>
+      <div className='professor-info'>
+        <div className='professor-details'>
+          <h2>{student.username}</h2>
+          <div className='ratings-container' />
+        </div>
+      </div>
+      <h3>Reviews:</h3>
+      {reviews.map((review) => (
+        <div key={review.id} className='review-container'>
+          <div className='review-metadata'>
+            <strong>{`Professor: ${review.professor_first} ${review.professor_last}`}</strong>
+            <strong>{`Course: ${review.course_name} `}</strong>
+            <strong>{`School: ${review.school_name} `}</strong>
+          </div>
+          <div className='review-scores'>
+            <p>
+              <strong>Score 1:</strong> {(review.overall / 100).toFixed(1)}
+            </p>
+            <p>
+              <strong>Score 2:</strong> {(review.quality1 / 100).toFixed(1)}
+            </p>
+            <p>
+              <strong>Score 3:</strong> {(review.quality2 / 100).toFixed(1)}
+            </p>
+            <p>
+              <strong>Score 4:</strong> {(review.quality3 / 100).toFixed(1)}
+            </p>
+            <p>
+              <strong>Score 5:</strong> {(review.quality4 / 100).toFixed(1)}
+            </p>
+            <p>
+              <strong>Score 5:</strong> {(review.quality5 / 100).toFixed(1)}
+            </p>
+          </div>
+          <div className='review-review'>
+            <p>
+              <strong>Text Review:</strong> {review.review}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+export default AccountPage

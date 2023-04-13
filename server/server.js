@@ -383,8 +383,11 @@ app.post('/api/v1/login', async (req, res) => {
 app.get('/api/v1/reviews/professor/:id', async (req, res) => {
   const { id } = req.params
   const sql = `SELECT review.*, 
-                JSON_OBJECT('first_name', professor.first_name, 'last_name', professor.last_name) AS professor, 
-                JSON_OBJECT('first_name', student.first_name, 'last_name', student.last_name) AS student,
+                professor.first_name AS professor_first,
+                professor.last_name AS professor_last,
+                student.first_name AS student_first,
+                student.last_name AS student_last,
+                student.username AS student_username,
                 course.course_name,
                 school.school_name
                 FROM review
@@ -423,8 +426,11 @@ app.get('/api/v1/reviews/professor/:id', async (req, res) => {
 app.get('/api/v1/reviews/student/:id', async (req, res) => {
   const { id } = req.params
   const sql = `SELECT review.*, 
-                JSON_OBJECT('first_name', professor.first_name, 'last_name', professor.last_name) AS professor, 
-                JSON_OBJECT('first_name', student.first_name, 'last_name', student.last_name) AS student,
+                professor.first_name AS professor_first,
+                professor.last_name AS professor_last,
+                student.first_name AS student_first,
+                student.last_name AS student_last,
+                student.username AS student_username,
                 course.course_name,
                 school.school_name
                 FROM review
@@ -481,8 +487,11 @@ app.post('/api/v1/reviews', async (req, res) => {
     }
 
     const revSql = `SELECT review.*, 
-                    JSON_OBJECT('first_name', professor.first_name, 'last_name', professor.last_name) AS professor, 
-                    JSON_OBJECT('first_name', student.first_name, 'last_name', student.last_name) AS student,
+                    professor.first_name AS professor_first,
+                    professor.last_name AS professor_last,
+                    student.first_name AS student_first,
+                    student.last_name AS student_last,
+                    student.username AS student_username,
                     course.course_name,
                     school.school_name
                     FROM review

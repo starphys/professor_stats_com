@@ -4,6 +4,7 @@ import Navbar from './components/Navbar'
 import CreateAccount from './routes/CreateAccount'
 import Home from './routes/Home'
 import LoginPage from './routes/LoginPage'
+import AccountPage from './routes/AccountPage'
 import ProfessorPage from './routes/ProfessorPage'
 import Results from './routes/Results'
 import ReviewPage from './routes/ReviewPage'
@@ -27,6 +28,7 @@ const App = () => {
           <Route exact path='/results' element={<Results searchResults={searchResults} setProfessor={setProfessor} />} />
           <Route exact path='/professor/:id' element={<ProfessorPage token={userToken} professor={professor} />} />
           <Route exact path='/review' element={<ReviewPage />} />
+          <Route exact path='/user/:username' element={<AccountPage token={userToken} />} />
         </Routes>
       </Router>
     </div>

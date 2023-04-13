@@ -84,10 +84,15 @@ const ProfessorPage = ({ token, prof }) => {
           </div>
         </div>
       </div>
-      {token && token.id && <ReviewPopup token={token} professor={professor} setProfessor={setProfessor}/>}
+      {token && token.id && <ReviewPopup token={token} professor={professor} setProfessor={setProfessor} />}
       <h3>Reviews:</h3>
       {reviews.map((review) => (
         <div key={review.id} className='review-container'>
+          <div className='review-metadata'>
+            <strong>{`Reviewer: ${review.student_username}`}</strong>
+            <strong>{`Course: ${review.course_name} `}</strong>
+            <strong>{`School: ${review.school_name} `}</strong>
+          </div>
           <div className='review-scores'>
             <p>
               <strong>Score 1:</strong> {(review.overall / 100).toFixed(1)}

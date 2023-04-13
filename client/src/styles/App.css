@@ -300,6 +300,16 @@ h2 {
   align-items: center;
 }
 
+.review-metadata {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 2%;
+  padding-right: 2%;
+  width: 96%;
+}
+
 .review-scores {
   display: flex;
   flex-direction: row;
