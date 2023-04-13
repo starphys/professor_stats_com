@@ -299,7 +299,6 @@ app.get('/api/v1/reviews/:id', async (req, res) => {
   const params = [id]
   db.all(sql, params, (err, rows) => {
     if (err) {
-      console.log(err)
       res.json({
         ok: false,
         status: 'failure',
@@ -312,6 +311,86 @@ app.get('/api/v1/reviews/:id', async (req, res) => {
       })
     }
   })
+})
+
+// Add new review
+app.post('/api/v1/reviews', async (req, res) => {
+  const { body } = req
+
+  db.serialize()
+
+  const sql = `INSERT INTO review 
+    (review, overall, quality1, quality2, quality3, quality4, quality5, course_id, school_id, professor_id, student_id) 
+    VALUES (?,?,?,?,?,?,?,?,?,?,?) returning *`
+  const params = [body.review, body.scores[0], body.scores[1], body.scores[2], body.scores[3], body.scores[4], body.scores[5],
+    body.course, body.school, body.professor, body.student]
+  db.all(sql, params, (err, rows) => {
+    if (err) {
+      res.json({
+        ok: false,
+        status: 'failure',
+        err
+      })
+    } else {
+      const review = rows[0]
+      const revSql = 'SELECT * FROM review WHERE professor_id = $1'
+      const revParams = [body.professor]
+      db.all(revSql, revParams, (err, rows) => {
+        if (err) {
+          res.json({
+            ok: false,
+            status: 'failure',
+            err
+          })
+        } else {
+          const reviews = rows
+          const averages = reviews.reduce((sum, review) => {
+            return [
+              sum[0] + review.overall,
+              sum[1] + review.quality1,
+              sum[2] + review.quality2,
+              sum[3] + review.quality3,
+              sum[4] + review.quality4,
+              sum[5] + review.quality5
+            ]
+          }, [0, 0, 0, 0, 0, 0]).map((element) => element / reviews.length)
+
+          const profSql = 'UPDATE professor SET overall=?, quality1=?, quality2=?, quality3=?, quality4=?, quality5=? WHERE id=?'
+          const profParams = [averages[0], averages[1], averages[2], averages[3], averages[4], averages[5], body.professor]
+          db.run(profSql, profParams, (err) => {
+            if (err) {
+              res.json({
+                ok: false,
+                status: 'failure',
+                err
+              })
+            } else {
+              const finalSql = 'SELECT * FROM professor WHERE id = $1'
+              const finalParams = [body.professor]
+              db.all(finalSql, finalParams, (err, rows) => {
+                if (err) {
+                  res.json({
+                    ok: false,
+                    status: 'failure',
+                    err
+                  })
+                } else {
+                  res.json({
+                    status: 'success',
+                    review,
+                    reviews,
+                    professor: rows[0]
+                  })
+                }
+              })
+            }
+          })
+        }
+      })
+    }
+  })
+
+  db.parallelize()
 })
 
 // Start server, listen on given port

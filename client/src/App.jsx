@@ -25,7 +25,7 @@ const App = () => {
           <Route exact path='/signup' element={<CreateAccount setUserToken={setUserToken} />} />
           <Route exact path='/login' element={<LoginPage setUserToken={setUserToken} />} />
           <Route exact path='/results' element={<Results searchResults={searchResults} setProfessor={setProfessor} />} />
-          <Route exact path='/professor/:id' element={<ProfessorPage professor={professor} />} />
+          <Route exact path='/professor/:id' element={<ProfessorPage token={userToken} professor={professor} />} />
           <Route exact path='/review' element={<ReviewPage />} />
         </Routes>
       </Router>
