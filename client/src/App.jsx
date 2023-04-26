@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import CreateAccount from './routes/CreateAccount'
@@ -15,7 +15,17 @@ const App = () => {
   // TODO: OPTIONAL move global state to context instead of prop driling
   const [searchResults, setSearchResults] = useState([])
   const [professor, setProfessor] = useState(null)
-  const [userToken, setUserToken] = useState()
+  const [userToken, setUserToken] = useState(JSON.parse(localStorage.getItem('userToken')) || null)
+
+  useEffect(() => {
+    localStorage.setItem('userToken', JSON.stringify(userToken))
+  }, [userToken])
+
+  useEffect(()=> {
+    console.log("User token updated")
+    console.log(userToken)
+  }, [userToken])
+
 
   return (
     <div>

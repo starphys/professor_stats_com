@@ -2,7 +2,13 @@ require('dotenv').config()
 const cors = require('cors')
 const express = require('express')
 const morgan = require('morgan')
+const multer = require('multer')
+const fs = require('fs')
+const path = require('path')
 const db = require('./db')
+
+
+const upload = multer({ dest: '../client/public/images/' })
 
 const app = express()
 
@@ -547,6 +553,44 @@ app.post('/api/v1/reviews', async (req, res) => {
       err
     })
   }
+})
+
+app.post('/api/v1/upload/:username', (req,res) => {
+  console.log(req)
+  const file = req.files.profilePicture
+  const { username } = req.params
+  
+  if (!file) {
+    res.json({
+      ok: false,
+      status: 'failure',
+      err: 'File not sent'
+    })
+    return
+  }
+  
+  const filePath = path.join(uploadsDir, `${username}.jpg`)
+  console.log(filePath)
+  
+  fs.writeFile(filePath, file.data, err => {
+    if (err) {
+      console.error('Error uploading file:', err)
+      res.json({
+        ok: false,
+        status: 'failure',
+        err: 'Failed to upload'
+      })
+      return
+    }
+    
+    console.log('File uploaded successfully:', file.name)
+    // Save file path or URL in database here
+    res.json({
+      ok: true,
+      status: 'success',
+      err: `Profile picture added as ${username}.jpg`
+    })
+  })
 })
 
 // Start server, listen on given port
