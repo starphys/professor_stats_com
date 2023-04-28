@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { LabelsContext } from '../App'
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -29,7 +30,8 @@ const createDatasets = (data) => {
   }))
 }
 
-function SpiderChart ({ labels, data1, data2, data3, style }) {
+function SpiderChart ({ data1, data2, data3, style, detail }) {
+  const labels = useContext(LabelsContext)
   const [data, setData] = useState([data1, data2, data3])
 
   useEffect(() => {
@@ -43,7 +45,8 @@ function SpiderChart ({ labels, data1, data2, data3, style }) {
   const chartOptions = {
     plugins: {
       legend: {
-        position: 'bottom'
+        position: 'bottom',
+        display: detail
       }
     },
     scales: {
@@ -51,7 +54,8 @@ function SpiderChart ({ labels, data1, data2, data3, style }) {
         suggestedMin: 0,
         suggestedMax: 5,
         ticks: {
-          stepSize: 1
+          stepSize: 1,
+          display: detail
         },
         angleLines: {
           color: 'deepskyblue'
@@ -60,7 +64,8 @@ function SpiderChart ({ labels, data1, data2, data3, style }) {
           color: 'deepskyblue'
         },
         pointLabels: {
-          color: 'deepskyblue'
+          color: 'deepskyblue',
+          display: detail
         }
 
       }

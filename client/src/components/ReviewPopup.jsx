@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { LabelsContext } from '../App'
 import Popup from 'reactjs-popup'
 import '../styles/App.css'
 import ReviewForm from './ReviewForm'
 
-function ReviewButton ({ token, labels, professor, setProfessor, updateQualities }) {
+function ReviewButton ({ token, professor, setProfessor, updateQualities }) {
   const [open, setOpen] = useState(false)
+  const labels = useContext(LabelsContext)
 
   const handleReview = (e) => {
     setOpen(false)

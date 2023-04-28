@@ -9,8 +9,6 @@ const ProfessorPage = ({ token, prof }) => {
   const [qualities, setQualities] = useState([1, 1, 1, 1, 1])
   const [reviews, setReviews] = useState([])
 
-  const labels = ['Overall', 'Goodness', 'Greatness', 'Exceptionality', 'Bestness', 'Praiseworthiness']
-
   const updateQualities = (prof) => {
     const scores = [prof.overall, prof.quality1, prof.quality2, prof.quality3, prof.quality4, prof.quality5]
     setQualities(scores.map(e => e / 100))
@@ -68,10 +66,10 @@ const ProfessorPage = ({ token, prof }) => {
           </div>
         </div>
         <div className='ratings-container'>
-          <SpiderChart labels={labels} data1={{ values: qualities, label: 'All courses' }} style={{ height: 500, width: 500 }} />
+          <SpiderChart data1={{ values: qualities, label: 'All courses' }} style={{ height: 500, width: 500 }} detail />
         </div>
       </div>
-      {token && token.id && <ReviewPopup token={token} labels={labels} professor={professor} setProfessor={setProfessor} updateQualities={updateQualities} />}
+      {token && token.id && <ReviewPopup token={token} professor={professor} setProfessor={setProfessor} updateQualities={updateQualities} />}
       <h3>Reviews:</h3>
       {reviews.map((review) => (
         <div key={review.id} className='review-container'>

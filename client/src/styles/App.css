@@ -444,3 +444,13 @@ h2 {
   align-items: left;
   margin-right: 20px;
 }
+
+.search-result {
+  display: flex;
+}
+
+.search-result img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
