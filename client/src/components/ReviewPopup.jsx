@@ -3,7 +3,7 @@ import Popup from 'reactjs-popup'
 import '../styles/App.css'
 import ReviewForm from './ReviewForm'
 
-function ReviewButton ({ token, labels, professor, setProfessor }) {
+function ReviewButton ({ token, labels, professor, setProfessor, updateQualities }) {
   const [open, setOpen] = useState(false)
 
   const handleReview = (e) => {
@@ -19,6 +19,7 @@ function ReviewButton ({ token, labels, professor, setProfessor }) {
       .then(data => {
       // TODO: handle error cases
         setProfessor(data.professor)
+        updateQualities(data.professor)
       })
   }
 

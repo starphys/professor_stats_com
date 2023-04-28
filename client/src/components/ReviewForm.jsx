@@ -29,15 +29,15 @@ function ReviewForm ({ onSubmit, labels }) {
     <div className='review-form-container'>
       <h2 className='review-form-header'>Leave a Review</h2>
       <form onSubmit={handleSubmit}>
-        
-          {labels && labels.map( (label, i) => {
-            return (
-              <div className='review-form-group'>
-                <label>{label}</label>
-                <RatingInput value={scores[i]} onChange={(value) => handleScoreChange(i, value)} />
-              </div>
-            )
-          })}
+
+        {labels && labels.map((label, i) => {
+          return (
+            <div className='review-form-group' key={i}>
+              <label>{label}</label>
+              <RatingInput value={scores[i]} onChange={(value) => handleScoreChange(i, value)} />
+            </div>
+          )
+        })}
         <div className='review-form-group-text'>
           <label>Review:</label>
           <textarea
