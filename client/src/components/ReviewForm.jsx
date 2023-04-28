@@ -35,7 +35,7 @@ function ReviewForm ({ onSubmit }) {
         </div>
         <div className='review-form-group'>
           <label>Helpfulness:</label>
-          <RatingInput value={scores[1]} onChange={(value) => handleScoreChange(1, value)}/>
+          <RatingInput value={scores[1]} onChange={(value) => handleScoreChange(1, value)} />
         </div>
         <div className='review-form-group'>
           <label>Easiness:</label>
