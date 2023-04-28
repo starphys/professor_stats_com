@@ -207,30 +207,31 @@ body {
 .professor-container {
   background-color: #1c1f2b;
   color: #fff;
-  padding: 20px;
+  padding: 6%;
+  padding-top: 4%;
   border-radius: 5px;
   margin-bottom: 20px;
 }
 
 .professor-info {
   display: flex;
-  align-items: center;
-  margin-bottom: 20px;
+  align-items: top;
 }
 
 .professor-info img {
-  width: 120px;
-  height: 120px;
+  width: 200px;
+  height: 200px;
   margin-right: 20px;
   border-radius: 50%;
 }
 
 .professor-details {
-  flex: 1;
+  display:flex;
 }
 
 .professor-details h2 {
   font-size: 24px;
+  width: 250px;
   margin: 0;
   margin-bottom: 5px;
 }
@@ -242,9 +243,10 @@ body {
 }
 
 .ratings-container {
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   margin-bottom: 10px;
 }
 

@@ -7,7 +7,7 @@ function RatingInput ({ value, onChange }) {
   )
 }
 
-function ReviewForm ({ onSubmit }) {
+function ReviewForm ({ onSubmit, labels }) {
   const [scores, setScores] = useState([5, 5, 5, 5, 5, 5])
   const [text, setText] = useState('')
 
@@ -29,30 +29,15 @@ function ReviewForm ({ onSubmit }) {
     <div className='review-form-container'>
       <h2 className='review-form-header'>Leave a Review</h2>
       <form onSubmit={handleSubmit}>
-        <div className='review-form-group'>
-          <label>Overall:</label>
-          <RatingInput value={scores[0]} onChange={(value) => handleScoreChange(0, value)} />
-        </div>
-        <div className='review-form-group'>
-          <label>Helpfulness:</label>
-          <RatingInput value={scores[1]} onChange={(value) => handleScoreChange(1, value)} />
-        </div>
-        <div className='review-form-group'>
-          <label>Easiness:</label>
-          <RatingInput value={scores[2]} onChange={(value) => handleScoreChange(2, value)} />
-        </div>
-        <div className='review-form-group'>
-          <label>Knowledge:</label>
-          <RatingInput value={scores[3]} onChange={(value) => handleScoreChange(3, value)} />
-        </div>
-        <div className='review-form-group'>
-          <label>Workload:</label>
-          <RatingInput value={scores[4]} onChange={(value) => handleScoreChange(4, value)} />
-        </div>
-        <div className='review-form-group'>
-          <label>Clarity:</label>
-          <RatingInput value={scores[5]} onChange={(value) => handleScoreChange(5, value)} />
-        </div>
+        
+          {labels && labels.map( (label, i) => {
+            return (
+              <div className='review-form-group'>
+                <label>{label}</label>
+                <RatingInput value={scores[i]} onChange={(value) => handleScoreChange(i, value)} />
+              </div>
+            )
+          })}
         <div className='review-form-group-text'>
           <label>Review:</label>
           <textarea

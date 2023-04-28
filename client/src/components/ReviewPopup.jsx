@@ -3,7 +3,7 @@ import Popup from 'reactjs-popup'
 import '../styles/App.css'
 import ReviewForm from './ReviewForm'
 
-function ReviewButton ({ token, professor, setProfessor }) {
+function ReviewButton ({ token, labels, professor, setProfessor }) {
   const [open, setOpen] = useState(false)
 
   const handleReview = (e) => {
@@ -26,7 +26,7 @@ function ReviewButton ({ token, professor, setProfessor }) {
     <>
       <div className='review-professor-container'><button className='review-professor-button' onClick={() => setOpen(true)}>{`Review ${professor?.first_name} ${professor?.last_name}`}</button></div>
       <Popup open={open} onClose={() => setOpen(false)} modal nested>
-        <ReviewForm onSubmit={handleReview} />
+        <ReviewForm labels={labels} onSubmit={handleReview} />
       </Popup>
     </>
 

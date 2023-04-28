@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import ReviewPopup from '../components/ReviewPopup'
+import SpiderChart from '../components/SpiderChart'
 
 const ProfessorPage = ({ token, prof }) => {
   const { id } = useParams()
   const [professor, setProfessor] = useState(null)
+  const [qualities, setQualities] = useState([1,1,1,1,1])
   const [reviews, setReviews] = useState([])
+
+  const labels = ['Overall', 'Goodness', 'Greatness', 'Exceptionality', 'Bestness', 'Praiseworthiness']
 
   useEffect(() => {
     fetch(`http://localhost:3001/api/v1/professors/${id}`, {
@@ -16,6 +20,7 @@ const ProfessorPage = ({ token, prof }) => {
       .then(data => {
         if (data.status === 'success') {
           setProfessor(data.professor)
+          setQualities([data.professor.overall, data.professor.quality1, data.professor.quality2, data.professor.quality3, data.professor.quality4, data.professor.quality5].map(e => e/100))
         } else {
         // TODO: Handle professor not found
           setProfessor(null)
@@ -50,41 +55,18 @@ const ProfessorPage = ({ token, prof }) => {
   return (
     <div className='professor-container'>
       <div className='professor-info'>
+      <div className='professor-details'>
         <img src={`${process.env.PUBLIC_URL}/images/${professor.id}.jpg`} alt={`${professor.first_name} ${professor.last_name}`} />
-        <div className='professor-details'>
+        <div>
           <h2>{professor.first_name} {professor.last_name}</h2>
-          <p className='degrees'>{professor.degrees}</p>
-          <div className='ratings-container'>
-            <div className='rating'>
-              {(professor.overall / 100).toFixed(1)}
-              <span>/5.0</span>
-            </div>
-            <div className='quality-ratings-container'>
-              <div className='quality-rating'>
-                <span className='rating-label'>Goodness</span>
-                <span className='rating-value'>{(professor.quality1 / 100).toFixed(1)}</span>
-              </div>
-              <div className='quality-rating'>
-                <span className='rating-label'>Greatness</span>
-                <span className='rating-value'>{(professor.quality2 / 100).toFixed(1)}</span>
-              </div>
-              <div className='quality-rating'>
-                <span className='rating-label'>Exceptionality</span>
-                <span className='rating-value'>{(professor.quality3 / 100).toFixed(1)}</span>
-              </div>
-              <div className='quality-rating'>
-                <span className='rating-label'>Bestness</span>
-                <span className='rating-value'>{(professor.quality4 / 100).toFixed(1)}</span>
-              </div>
-              <div className='quality-rating'>
-                <span className='rating-label'>Praiseworthiness</span>
-                <span className='rating-value'>{(professor.quality5 / 100).toFixed(1)}</span>
-              </div>
-            </div>
-          </div>
+        <p className='degrees'>{professor.degrees}</p>
+        </div>
+        </div>
+        <div className='ratings-container'>
+          <SpiderChart labels={labels} data1={{values:qualities, label:"All courses"}}style={{height:500,width:500}}/>
         </div>
       </div>
-      {token && token.id && <ReviewPopup token={token} professor={professor} setProfessor={setProfessor} />}
+      {token && token.id && <ReviewPopup token={token} labels={labels} professor={professor} setProfessor={setProfessor} />}
       <h3>Reviews:</h3>
       {reviews.map((review) => (
         <div key={review.id} className='review-container'>
