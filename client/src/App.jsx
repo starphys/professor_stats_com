@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import CreateAccount from './routes/CreateAccount'
@@ -9,6 +9,8 @@ import ProfessorPage from './routes/ProfessorPage'
 import Results from './routes/Results'
 import ReviewPage from './routes/ReviewPage'
 import './styles/App.css'
+
+export const LabelsContext = createContext(['Overall', 'Goodness', 'Greatness', 'Exceptionality', 'Bestness', 'Praiseworthiness'])
 
 const App = () => {
   // TODO: persist global state in localStorage
@@ -24,7 +26,7 @@ const App = () => {
   }, [userToken])
 
   return (
-    <div>
+    <LabelsContext.Provider value={['Overall', 'Goodness', 'Greatness', 'Exceptionality', 'Bestness', 'Praiseworthiness']}>
       <Router>
         <Navbar token={userToken} setUserToken={setUserToken} />
         <Routes>
@@ -37,7 +39,7 @@ const App = () => {
           <Route exact path='/user/:username' element={<AccountPage token={userToken} />} />
         </Routes>
       </Router>
-    </div>
+    </LabelsContext.Provider>
   )
 }
 
