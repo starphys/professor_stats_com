@@ -18,14 +18,10 @@ const App = () => {
   const [userToken, setUserToken] = useState(JSON.parse(localStorage.getItem('userToken')) || null)
 
   useEffect(() => {
+    console.log('User token updated')
+    console.log(userToken)
     localStorage.setItem('userToken', JSON.stringify(userToken))
   }, [userToken])
-
-  useEffect(()=> {
-    console.log("User token updated")
-    console.log(userToken)
-  }, [userToken])
-
 
   return (
     <div>

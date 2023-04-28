@@ -10,6 +10,7 @@ function Navbar ({ token, setUserToken }) {
       <ul className='navbar-links'>
         {token ? '' : <CustomLink to='/signup'>Sign up</CustomLink>}
         {token ? '' : <CustomLink to='/login'>Log in</CustomLink>}
+        {token ? <CustomLink to={`/user/${token.username}`}>Account</CustomLink> : ''}
         {token ? <Logout setUserToken={setUserToken} /> : ''}
       </ul>
     </nav>

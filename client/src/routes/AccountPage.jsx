@@ -5,7 +5,6 @@ function AccountPage ({ token }) {
   const { username } = useParams()
   const [student, setStudent] = useState(null)
   const [reviews, setReviews] = useState([])
-  const [file, setFile] = useState(null)
 
   useEffect(() => {
     fetch(`http://localhost:3001/api/v1/students/user/${username}`, {
@@ -44,28 +43,24 @@ function AccountPage ({ token }) {
     }
   }, [student, setReviews])
 
+  function uploadFile (e) {
+    const file = e.target.files[0]
 
-  useEffect(() => {
-    console.log(file)
-  }, [file])
+    const formData = new FormData()
+    formData.append('username', username)
+    formData.append('profilePicture', file)
 
-
-  function uploadFile(e) {
-    const file = e.target.files[0];
-    
-    const formData = new FormData();
-    formData.append('profilePicture', file);
-    
-    fetch(`http://localhost:3001/api/v1/upload/${username}`, {
+    fetch('http://localhost:3001/api/v1/upload/', {
       method: 'POST',
       body: formData
     })
       .then(response => {
-        console.log('File uploaded successfully');
+        if (response?.status === 'success') {
+          console.log('File uploaded successfully')
+        } else {
+          console.log('Error uploading file.')
+        }
       })
-      .catch(error => {
-        console.error('Error uploading file:', error);
-      });
   }
 
   if (!student) {
@@ -81,14 +76,15 @@ function AccountPage ({ token }) {
     <div className='professor-container'>
       <div className='professor-info'>
         <div className='student-picture'>
-      <img 
-        src={`${process.env.PUBLIC_URL}/images/${username}.jpeg`} 
-        onError={({ currentTarget }) => {
-          currentTarget.onerror = null;
-          currentTarget.src=`${process.env.PUBLIC_URL}/images/default.jpeg`;
-        }} 
-        alt={`${student.first_name} ${student.last_name}`} />
-        {token?.id === student?.id ? <div className="upload-pic"><label>Replace Profile Picture</label><input type='file' accept="image/jpeg" onChange={uploadFile}></input></div> : ""}
+          <img
+            src={`${process.env.PUBLIC_URL}/images/${username}.jpg`}
+            onError={({ currentTarget }) => {
+              currentTarget.onerror = null
+              currentTarget.src = `${process.env.PUBLIC_URL}/images/default.jpg`
+            }}
+            alt={`${student.first_name} ${student.last_name}`}
+          />
+          {token?.id === student?.id ? <div className='upload-pic'><label>Replace Profile Picture</label><input type='file' accept='image/jpeg' onChange={uploadFile} /></div> : ''}
         </div>
         <div className='professor-details'>
           <h2>{student.username}</h2>
