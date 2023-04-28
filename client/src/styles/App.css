@@ -15,10 +15,9 @@ body {
 }
 
 .results-page {
-  background-color: #2C757A;
   color: #ffffff;
-  padding: 20px;
-  border-radius: 10px;
+  padding: 10%;
+  padding-top: 1%;
 }
 
 .prof-page {
@@ -447,6 +446,13 @@ h2 {
 
 .search-result {
   display: flex;
+  background-color: #2C757A;
+  border-radius: 10px;
+  /* padding: 1%; */
+  padding-top: 2%;
+  padding-bottom: 2%;
+  justify-content: space-evenly;
+  cursor: pointer;
 }
 
 .search-result img {
