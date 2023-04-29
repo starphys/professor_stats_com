@@ -5,7 +5,7 @@ import SpiderChart from '../components/SpiderChart'
 import Review from '../components/Review'
 import { v4 as uuidv4 } from 'uuid'
 
-const ProfessorPage = ({ token, prof }) => {
+const ProfessorPage = ({ token }) => {
   const { id } = useParams()
   const [professor, setProfessor] = useState(null)
   const [reviews, setReviews] = useState([])
@@ -28,11 +28,11 @@ const ProfessorPage = ({ token, prof }) => {
           setProfessor(null)
         }
       })
-  }, [prof, id, refresh, setProfessor])
+  }, [id, refresh, setProfessor])
 
   useEffect(() => {
     if (professor) {
-      fetch(`http://localhost:3001/api/v1/reviews/professor/${professor.id}`, {
+      fetch(`http://localhost:3001/api/v1/reviews/professor/${id}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
       })
@@ -50,7 +50,7 @@ const ProfessorPage = ({ token, prof }) => {
     }
   }, [professor, setReviews])
 
-  if (!professor || reviews.length < 1) {
+  if (!professor) {
     return <div><b>Loading</b></div>
   }
 
@@ -59,7 +59,9 @@ const ProfessorPage = ({ token, prof }) => {
       <div className='professor-info'>
         <div className='professor-details'>
           <div className='prof-det-horizontal'>
-            <img src={`${process.env.PUBLIC_URL}/images/${professor.id}.jpg`} alt={`${professor.first_name} ${professor.last_name}`} />
+            <div className='image-cropper'>
+              <img className='profile-pic' src={`${process.env.PUBLIC_URL}/images/${professor.id}.jpg`} alt={`${professor.first_name} ${professor.last_name}`} />
+            </div>
             <div>
               <h2>{professor.first_name} {professor.last_name}</h2>
               <p className='degrees'>{professor.degrees}</p>

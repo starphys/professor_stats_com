@@ -69,12 +69,17 @@ app.get('/api/v1/professors', (req, res) => {
 // Get professor by id
 app.get('/api/v1/professors/:id', async (req, res) => {
   const { id } = req.params
-  const sql = 'SELECT * FROM professor WHERE id = ?'
-  const courseSql = `SELECT *
+  const sql = `SELECT professor.*,
+              school.school_name 
+              FROM professor 
+              INNER JOIN school ON school.id = school_professor.school_id
+              INNER JOIN school_professor ON school_professor.professor_id = professor.id
+              WHERE professor.id = ?`
+  const courseSql = `SELECT course.*
                     FROM course
                     INNER JOIN course_professor ON course.id = course_professor.course_id
                     WHERE course_professor.professor_id = ?`
-  const reviewSql = `SELECT *
+  const reviewSql = `SELECT review.*
                     FROM review
                     INNER JOIN course ON review.course_id = course.id
                     WHERE review.professor_id = ?`
@@ -101,6 +106,7 @@ app.get('/api/v1/professors/:id', async (req, res) => {
       return { id: course.id, name: course.course_name, scores: averages }
     })
     course_reviews.unshift({ id: 0, name: 'All Courses', scores: [professor.overall, professor.quality1, professor.quality2, professor.quality3, professor.quality4, professor.quality5].map(e => e / 100) })
+
     if (professor && courses && course_reviews) {
       res.json({
         status: 'success',

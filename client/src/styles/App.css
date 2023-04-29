@@ -215,13 +215,19 @@ body {
 .professor-info {
   display: flex;
   align-items: top;
+  justify-content: space-evenly;
 }
 
-.professor-info img {
+.profile-pic {
   width: 200px;
   height: 200px;
-  margin-right: 20px;
+  position: relative;
+  overflow: hidden;
+  object-fit: cover;
   border-radius: 50%;
+  object-fit: cover;
+  margin-right: 15px;
+  margin-bottom: 15px;
 }
 
 /* .professor-details {
@@ -230,23 +236,25 @@ body {
 
 .prof-det-horizontal {
   display:flex;
+  justify-content: space-between;
 }
 
 .professor-details h2 {
   font-size: 24px;
-  width: 250px;
+  width: 300px;
   margin: 0;
   margin-bottom: 5px;
 }
 
 .professor-details .degrees {
+  width:300px;
   font-size: 16px;
   margin: 0;
   margin-bottom: 10px;
+  overflow-wrap: break-word;
 }
 
 .ratings-container {
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -479,6 +487,7 @@ h2 {
   padding-bottom: 2%;
   justify-content: space-evenly;
   cursor: pointer;
+  margin-bottom: 20px;
 }
 
 .search-result img {
@@ -490,4 +499,12 @@ h2 {
 .warn {
   color:red;
   padding: 4px;
+}
+
+.result-info{
+  padding-top:1%;
+}
+.result-header-text {
+  width: 70%;
+  overflow-wrap: break-word;
 }
