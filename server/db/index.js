@@ -49,6 +49,8 @@ try {
     .run()
   db.prepare('INSERT INTO course (course_name, school_id) VALUES (?,?)')
     .run('CMPE 133', 1)
+  db.prepare('INSERT INTO course (course_name, school_id) VALUES (?,?)')
+    .run('CMPE 165', 1)
 } catch (err) {
   if (err.message.search('already exists') === -1) {
     console.log('Failed to create course table.')
@@ -117,6 +119,8 @@ try {
     .run()
   db.prepare('INSERT INTO course_professor (course_id, professor_id) VALUES (?,?)')
     .run(1, 1)
+  db.prepare('INSERT INTO course_professor (course_id, professor_id) VALUES (?,?)')
+    .run(2, 1)
 } catch (err) {
   if (err.message.search('already exists') === -1) {
     console.log('Failed to create course_professor table.')

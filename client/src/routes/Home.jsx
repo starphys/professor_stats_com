@@ -22,8 +22,7 @@ function Home ({ setSearchResults }) {
     // For now, this only searches by professor
     setFound('Searching')
     const results = professors.filter((professor) => {
-      if (professor.first_name.toLowerCase().includes(query.toLowerCase())) { return true }
-      if (professor.last_name.toLowerCase().includes(query.toLowerCase())) { return true }
+      if ((professor.first_name.toLowerCase() + ' ' + professor.last_name.toLowerCase()).includes(query.toLowerCase())) { return true }
       return false
     })
     if (results.length < 1 || query.length < 1) {

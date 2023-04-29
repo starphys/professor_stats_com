@@ -5,7 +5,7 @@ import { TokenContext } from '../App'
 
 function Review ({ review, mode, onSubmit }) {
   const qualities = [review.overall, review.quality1, review.quality2, review.quality3, review.quality4, review.quality5].map(e => e / 100)
-  const [token, setToken] = useContext(TokenContext)
+  const [token] = useContext(TokenContext)
 
   if (mode === 'student') {
     return (
