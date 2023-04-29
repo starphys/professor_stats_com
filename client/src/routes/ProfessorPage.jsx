@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import ReviewPopup from '../components/ReviewPopup'
 import SpiderChart from '../components/SpiderChart'
+import Review from '../components/Review'
 
 const ProfessorPage = ({ token, prof }) => {
   const { id } = useParams()
@@ -71,39 +72,8 @@ const ProfessorPage = ({ token, prof }) => {
       </div>
       {token && token.id && <ReviewPopup token={token} professor={professor} setProfessor={setProfessor} updateQualities={updateQualities} />}
       <h3>Reviews:</h3>
-      {reviews.map((review) => (
-        <div key={review.id} className='review-container'>
-          <div className='review-metadata'>
-            <strong>{`Reviewer: ${review.student_username}`}</strong>
-            <strong>{`Course: ${review.course_name} `}</strong>
-            <strong>{`School: ${review.school_name} `}</strong>
-          </div>
-          <div className='review-scores'>
-            <p>
-              <strong>Score 1:</strong> {(review.overall / 100).toFixed(1)}
-            </p>
-            <p>
-              <strong>Score 2:</strong> {(review.quality1 / 100).toFixed(1)}
-            </p>
-            <p>
-              <strong>Score 3:</strong> {(review.quality2 / 100).toFixed(1)}
-            </p>
-            <p>
-              <strong>Score 4:</strong> {(review.quality3 / 100).toFixed(1)}
-            </p>
-            <p>
-              <strong>Score 5:</strong> {(review.quality4 / 100).toFixed(1)}
-            </p>
-            <p>
-              <strong>Score 5:</strong> {(review.quality5 / 100).toFixed(1)}
-            </p>
-          </div>
-          <div className='review-review'>
-            <p>
-              <strong>Text Review:</strong> {review.review}
-            </p>
-          </div>
-        </div>
+      {reviews.toReversed().map((review) => (
+        <Review review={review} key={review.id} mode='professor' />
       ))}
     </div>
   )

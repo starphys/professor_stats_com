@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import Review from '../components/Review'
+import { v4 as uuidv4 } from 'uuid'
 
 function AccountPage ({ token }) {
   const { username } = useParams()
   const [student, setStudent] = useState(null)
   const [reviews, setReviews] = useState([])
+  const [rerender, setRerender] = useState(0)
+
+  const onSubmit = () => {
+    setRerender(r => r + 1)
+  }
 
   useEffect(() => {
     fetch(`http://localhost:3001/api/v1/students/user/${username}`, {
@@ -13,7 +20,6 @@ function AccountPage ({ token }) {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data)
         if (data.status === 'success') {
           setStudent(data.student)
         } else {
@@ -21,7 +27,7 @@ function AccountPage ({ token }) {
           setStudent(null)
         }
       })
-  }, [username, setStudent])
+  }, [username, rerender, setStudent])
 
   useEffect(() => {
     if (student) {
@@ -67,11 +73,11 @@ function AccountPage ({ token }) {
     return <div><b>Loading</b></div>
   }
 
-  // Student is viewing own page
+  // Student is viewing other page
   if (token?.id !== student?.id) {
   }
 
-  // Student is viewing other page
+  // Student is viewing own page
   return (
     <div className='professor-container'>
       <div className='professor-info'>
@@ -92,39 +98,8 @@ function AccountPage ({ token }) {
         </div>
       </div>
       <h3>Reviews:</h3>
-      {reviews.map((review) => (
-        <div key={review.id} className='review-container'>
-          <div className='review-metadata'>
-            <strong>{`Professor: ${review.professor_first} ${review.professor_last}`}</strong>
-            <strong>{`Course: ${review.course_name} `}</strong>
-            <strong>{`School: ${review.school_name} `}</strong>
-          </div>
-          <div className='review-scores'>
-            <p>
-              <strong>Score 1:</strong> {(review.overall / 100).toFixed(1)}
-            </p>
-            <p>
-              <strong>Score 2:</strong> {(review.quality1 / 100).toFixed(1)}
-            </p>
-            <p>
-              <strong>Score 3:</strong> {(review.quality2 / 100).toFixed(1)}
-            </p>
-            <p>
-              <strong>Score 4:</strong> {(review.quality3 / 100).toFixed(1)}
-            </p>
-            <p>
-              <strong>Score 5:</strong> {(review.quality4 / 100).toFixed(1)}
-            </p>
-            <p>
-              <strong>Score 5:</strong> {(review.quality5 / 100).toFixed(1)}
-            </p>
-          </div>
-          <div className='review-review'>
-            <p>
-              <strong>Text Review:</strong> {review.review}
-            </p>
-          </div>
-        </div>
+      {reviews.toReversed().map((review) => (
+        <Review review={review} key={uuidv4()} mode='student' onSubmit={onSubmit} />
       ))}
     </div>
   )

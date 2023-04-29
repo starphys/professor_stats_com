@@ -30,7 +30,6 @@ function CreateAccount ({ setUserToken }) {
       })
         .then(response => response.json())
         .then(data => {
-          console.log(data)
           if (data.status === 'success') {
             setUserToken(data.student)
             navigate('/')

@@ -7,10 +7,10 @@ const db = require('./db')
 
 const upload = multer({
   storage: multer.diskStorage({
-    destination: function (cb) {
+    destination: function (req, file, cb) {
       cb(null, '../client/public/images/')
     },
-    filename: function (req, cb) {
+    filename: function (req, file, cb) {
       const filename = req.body.username + '.jpg'
       cb(null, filename)
     }
@@ -487,6 +487,88 @@ app.post('/api/v1/reviews', async (req, res) => {
     VALUES (?,?,?,?,?,?,?,?,?,?,?) returning *`
   const params = [body.review, body.scores[0], body.scores[1], body.scores[2], body.scores[3], body.scores[4], body.scores[5],
     body.course, body.school, body.professor, body.student]
+  try {
+    // Add review to get review.id
+    const review = db.prepare(sql).get(params)
+    if (!review) {
+      res.json({
+        ok: false,
+        status: 'failure',
+        err: 'Not added'
+      })
+      return
+    }
+
+    const revSql = `SELECT review.*, 
+                    professor.first_name AS professor_first,
+                    professor.last_name AS professor_last,
+                    student.first_name AS student_first,
+                    student.last_name AS student_last,
+                    student.username AS student_username,
+                    course.course_name,
+                    school.school_name
+                    FROM review
+                    INNER JOIN professor ON review.professor_id = professor.id
+                    INNER JOIN student ON review.student_id = student.id
+                    INNER JOIN course ON review.course_id = course.id
+                    INNER JOIN school ON review.school_id = school.id
+                    WHERE review.professor_id = ?`
+    const revParams = [body.professor]
+    const reviews = db.prepare(revSql).all(revParams)
+    if (reviews.length < 0) {
+      res.json({
+        ok: false,
+        status: 'failure',
+        err: 'Not found'
+      })
+      return
+    }
+
+    const averages = reviews.reduce((sum, review) => {
+      return [
+        sum[0] + review.overall,
+        sum[1] + review.quality1,
+        sum[2] + review.quality2,
+        sum[3] + review.quality3,
+        sum[4] + review.quality4,
+        sum[5] + review.quality5
+      ]
+    }, [0, 0, 0, 0, 0, 0]).map((element) => element / reviews.length)
+
+    const profSql = 'UPDATE professor SET overall=?, quality1=?, quality2=?, quality3=?, quality4=?, quality5=? WHERE id=? returning *'
+    const profParams = [averages[0], averages[1], averages[2], averages[3], averages[4], averages[5], body.professor]
+    const professor = db.prepare(profSql).get(profParams)
+    if (!professor) {
+      res.json({
+        ok: false,
+        status: 'failure',
+        err: 'Not updated'
+      })
+      return
+    }
+    res.json({
+      status: 'success',
+      review,
+      reviews,
+      professor
+    })
+  } catch (err) {
+    console.log(err)
+    res.json({
+      ok: false,
+      status: 'failure',
+      err
+    })
+  }
+})
+
+// Update existing review
+app.put('/api/v1/reviews', async (req, res) => {
+  const { body } = req
+
+  const sql = `UPDATE review SET review = ?, overall = ?, quality1 = ?, quality2 = ?, quality3 = ?, quality4 = ?, quality5 = ? WHERE id = ? returning *`
+  const params = [body.review, body.scores[0], body.scores[1], body.scores[2], body.scores[3], body.scores[4], body.scores[5],
+    body.id]
   try {
     // Add review to get review.id
     const review = db.prepare(sql).get(params)
