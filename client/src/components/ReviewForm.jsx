@@ -7,9 +7,12 @@ function RatingInput ({ value, onChange }) {
   )
 }
 
-function ReviewForm ({ onSubmit, labels }) {
-  const [scores, setScores] = useState([5, 5, 5, 5, 5, 5])
-  const [text, setText] = useState('')
+function ReviewForm ({ onSubmit, labels, original }) {
+  const [scores, setScores] = useState(original
+    ? [original.overall, original.quality1, original.quality2,
+        original.quality3, original.quality4, original.quality5].map(e => e / 100)
+    : [5, 5, 5, 5, 5, 5])
+  const [text, setText] = useState(original ? original.review : '')
 
   const handleScoreChange = (index, value) => {
     const newScores = [...scores]
@@ -21,8 +24,6 @@ function ReviewForm ({ onSubmit, labels }) {
     event.preventDefault()
     const review = { scores: scores.map(val => val * 100), text }
     onSubmit(review)
-    setScores([5, 5, 5, 5, 5, 5])
-    setText('')
   }
 
   return (

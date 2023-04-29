@@ -289,16 +289,38 @@ h2 {
   margin-top: 0;
 }
 
-.review-container {
+.review-component {
   background-color: #2e3348;
   color: #fff;
   padding: 10px;
   border-radius: 5px;
   margin-bottom: 20px;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.review-component img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.review-component a {
+  color: #fff;
+}
+
+
+
+
+.review-container {
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  width: 70%;
+  padding-top: .5%;
+  padding-bottom: .5%;
 }
 
 .review-metadata {
