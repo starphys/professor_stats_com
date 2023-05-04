@@ -42,8 +42,17 @@ app.get('/api/v1/professors', (req, res) => {
   const sql = 'SELECT * FROM professor'
   const params = []
   try {
-    const professors = db.prepare(sql).all(params)
-    if (professors.length >= 0) {
+    const professor_result = db.prepare(sql).all(params)
+    if (professor_result.length >= 0) {
+      const professors = professor_result.map(professor => {
+        const courseSql = `SELECT course.*
+                    FROM course
+                    INNER JOIN course_professor ON course.id = course_professor.course_id
+                    WHERE course_professor.professor_id = ?`
+
+        const courses = db.prepare(courseSql).all(professor.id)
+        return { ...professor, courses }
+      })
       res.json({
         status: 'success',
         results: professors.length,

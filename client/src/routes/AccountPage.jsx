@@ -78,6 +78,7 @@ function AccountPage ({ token }) {
       <div className='professor-info'>
         <div className='student-picture'>
           <img
+            className='profile-pic'
             src={`${process.env.PUBLIC_URL}/images/${username}.jpg`}
             onError={({ currentTarget }) => {
               currentTarget.onerror = null
