@@ -70,14 +70,9 @@ function AccountPage ({ token }) {
   }
 
   if (!student) {
-    return <div><b>Loading</b></div>
+    return <div><b>User not found!</b></div>
   }
 
-  // Student is viewing other page
-  if (token?.id !== student?.id) {
-  }
-
-  // Student is viewing own page
   return (
     <div className='professor-container'>
       <div className='professor-info'>

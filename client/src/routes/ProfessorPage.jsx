@@ -3,17 +3,15 @@ import { useParams } from 'react-router-dom'
 import ReviewPopup from '../components/ReviewPopup'
 import SpiderChart from '../components/SpiderChart'
 import Review from '../components/Review'
+import { v4 as uuidv4 } from 'uuid'
 
-const ProfessorPage = ({ token, prof }) => {
+const ProfessorPage = ({ token }) => {
   const { id } = useParams()
   const [professor, setProfessor] = useState(null)
-  const [qualities, setQualities] = useState([1, 1, 1, 1, 1])
   const [reviews, setReviews] = useState([])
-
-  const updateQualities = (prof) => {
-    const scores = [prof.overall, prof.quality1, prof.quality2, prof.quality3, prof.quality4, prof.quality5]
-    setQualities(scores.map(e => e / 100))
-  }
+  const [courses, setCourses] = useState([])
+  const [courseSelection, setCourseSelection] = useState(0)
+  const [refresh, setRefresh] = useState(0)
 
   useEffect(() => {
     fetch(`http://localhost:3001/api/v1/professors/${id}`, {
@@ -24,17 +22,17 @@ const ProfessorPage = ({ token, prof }) => {
       .then(data => {
         if (data.status === 'success') {
           setProfessor(data.professor)
-          updateQualities(data.professor)
+          setCourses(data.course_reviews)
         } else {
         // TODO: Handle professor not found
           setProfessor(null)
         }
       })
-  }, [prof, id, setProfessor])
+  }, [id, refresh, setProfessor])
 
   useEffect(() => {
     if (professor) {
-      fetch(`http://localhost:3001/api/v1/reviews/professor/${professor.id}`, {
+      fetch(`http://localhost:3001/api/v1/reviews/professor/${id}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
       })
@@ -52,7 +50,7 @@ const ProfessorPage = ({ token, prof }) => {
     }
   }, [professor, setReviews])
 
-  if (!professor || reviews.length < 1) {
+  if (!professor) {
     return <div><b>Loading</b></div>
   }
 
@@ -60,20 +58,29 @@ const ProfessorPage = ({ token, prof }) => {
     <div className='professor-container'>
       <div className='professor-info'>
         <div className='professor-details'>
-          <img src={`${process.env.PUBLIC_URL}/images/${professor.id}.jpg`} alt={`${professor.first_name} ${professor.last_name}`} />
+          <div className='prof-det-horizontal'>
+            <div className='image-cropper'>
+              <img className='profile-pic' src={`${process.env.PUBLIC_URL}/images/${professor.id}.jpg`} alt={`${professor.first_name} ${professor.last_name}`} />
+            </div>
+            <div>
+              <h2>{professor.first_name} {professor.last_name}</h2>
+              <p className='degrees'>{professor.degrees}</p>
+            </div>
+          </div>
           <div>
-            <h2>{professor.first_name} {professor.last_name}</h2>
-            <p className='degrees'>{professor.degrees}</p>
+            <select onChange={e => setCourseSelection(Number(e.target.value))}>
+              {courses && courses.map(course => <option key={course.id} value={course.id}>{course.name}</option>)}
+            </select>
           </div>
         </div>
         <div className='ratings-container'>
-          <SpiderChart data1={{ values: qualities, label: 'All courses' }} style={{ height: 500, width: 500 }} detail />
+          <SpiderChart data1={{ values: courses.find(cr => cr.id === courseSelection).scores, label: courses.find(cr => cr.id === courseSelection).name }} style={{ height: 500, width: 500 }} detail />
         </div>
       </div>
-      {token && token.id && <ReviewPopup token={token} professor={professor} setProfessor={setProfessor} updateQualities={updateQualities} />}
+      {token && token.id && <ReviewPopup token={token} professor={professor} setRefresh={setRefresh} courses={courses} />}
       <h3>Reviews:</h3>
-      {reviews.toReversed().map((review) => (
-        <Review review={review} key={review.id} mode='professor' />
+      {reviews.toReversed().filter(review => courseSelection === 0 || review.course_id === courseSelection).map((review) => (
+        <Review review={review} key={uuidv4()} mode='professor' />
       ))}
     </div>
   )
