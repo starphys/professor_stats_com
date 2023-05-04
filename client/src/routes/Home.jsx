@@ -18,25 +18,44 @@ function Home ({ setSearchResults }) {
       .then(data => setProfessors(data.professors))
   }, [])
 
-  const handleSearch = (query) => {
+  const handleSearch = (query, category) => {
     // For now, this only searches by professor
     setFound('Searching')
-    const results = professors.filter((professor) => {
-      if ((professor.first_name.toLowerCase() + ' ' + professor.last_name.toLowerCase()).includes(query.toLowerCase())) { return true }
-      return false
-    })
-    if (results.length < 1 || query.length < 1) {
-      setFound('Not found')
-    } else {
-      setFound('Found')
-      setSearchResults(results)
-      navigate('/results')
-    }
+    if (category === '' || category === 'professor') {
+      const results = professors.filter((professor) => {
+        if ((professor + ' ' + professor.last_name.toLowerCase()).includes(query.toLowerCase())) { return true }
+        return false
+      })
+      if (results.length < 1 || query.length < 1) {
+        setFound('Not found')
+      } else {
+        setFound('Found')
+        setSearchResults(results)
+        navigate('/results')
+      }
+    } else if (category === 'course') {
+      const results = professors.filter((professor) => {
+        const courseString = professor.courses.reduce((acc, course) => {
+          return acc + course.course_name + ', '
+        }, '')
+
+        return ((courseString.toLowerCase()).includes(query.toLowerCase()))
+      })
+      if (results.length < 1 || query.length < 1) {
+        setFound('Not found')
+      } else {
+        setFound('Found')
+        setSearchResults(results)
+        navigate('/results')
+      }
+    } else if (category === 'reviewer') {}
   }
 
   return (
     <div className='search-page'>
-      <SearchBar onSearch={handleSearch} />
+      <div className='search-bar'>
+        <SearchBar onSearch={handleSearch} />
+      </div>
       {found === 'Not found' && <b>No results found, please try another search term.</b>}
     </div>
   )
