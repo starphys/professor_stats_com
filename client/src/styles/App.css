@@ -242,31 +242,6 @@ body {
   border: 1px solid #008080;
 }
 
-.logout-button {
-  margin-top: 5px;
-  margin-bottom: 5px;
-  padding: 10px;
-  font-size: 0.9rem;
-  border-radius: 5px;
-  border: none;
-  background-color: #008080;
-  color: #fff;
-  cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-.logout-button:hover {
-  background-color: red;
-  color: white;
-  border: 1px solid #008080;
-}
-
-.logout-button:active {
-  background-color: pink;
-  color: white;
-  transform: translateY(1px);
-}
-
 .nav-container {
   width: 98%;
   background-color: #333;
