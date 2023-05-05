@@ -58,7 +58,7 @@ const ProfessorPage = ({ token }) => {
     <div className='professor-container'>
       <div className='professor-info'>
         <div className='professor-details'>
-          <div className='prof-det-horizontal'>
+          <div className='prof-det-vertical'>
             <div className='image-cropper'>
               <img className='profile-pic' src={`${process.env.PUBLIC_URL}/images/${professor.id}.jpg`} alt={`${professor.first_name} ${professor.last_name}`} />
             </div>
@@ -67,8 +67,8 @@ const ProfessorPage = ({ token }) => {
               <p className='degrees'>{professor.degrees}</p>
             </div>
           </div>
-          <div>
-            <select onChange={e => setCourseSelection(Number(e.target.value))}>
+          <div className='compare-center'>
+            <select className='compare-select' onChange={e => setCourseSelection(Number(e.target.value))}>
               {courses && courses.map(course => <option key={course.id} value={course.id}>{course.name}</option>)}
             </select>
           </div>

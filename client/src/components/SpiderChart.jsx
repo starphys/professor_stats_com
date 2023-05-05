@@ -21,11 +21,21 @@ ChartJS.register(
 )
 
 const createDatasets = (data) => {
+  const backColors = [
+    'rgba(64, 224, 208, 0.2)',
+    'rgba(208, 64, 224, 0.2)',
+    'rgba(224, 208, 64, 0.2)'
+  ]
+  const borderColors = [
+    'rgba(64, 224, 208, 1)',
+    'rgba(208, 64, 224, 1)',
+    'rgba(224, 208, 64, 1)'
+  ]
   return data.filter(sample => sample).map((sample, i) => ({
     data: sample.values,
     label: sample.label,
-    backgroundColor: `rgba(64, ${224 - (10 * i)}, ${208 - (10 * i)}, 0.2)`,
-    borderColor: `rgba(64, ${224 - (10 * i)}, ${208 - (10 * i)}, 0.8)`,
+    backgroundColor: backColors[i],
+    borderColor: borderColors[i],
     borderWidth: 2
   }))
 }
