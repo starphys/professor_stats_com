@@ -1,11 +1,44 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import SpiderChart from './SpiderChart'
-import EditButton from './EditPopup'
+import EditButton from './EditButton'
 import { TokenContext } from '../App'
 
 function Review ({ review, mode, onSubmit }) {
   const qualities = [review.overall, review.quality1, review.quality2, review.quality3, review.quality4, review.quality5].map(e => e / 100)
   const [token] = useContext(TokenContext)
+  const [upvoted, setUpvoted] = useState(false)
+  const [downvoted, setDownvoted] = useState(false)
+  const [score, setScore] = useState(0)
+
+  const handleUpvote = () => {
+    let toAdd = 0
+    if (downvoted) {
+      setDownvoted(d => !d)
+      toAdd += 1
+    }
+    if (upvoted) {
+      toAdd -= 1
+    } else {
+      toAdd += 1
+    }
+    setScore(s => s + toAdd)
+    setUpvoted(u => !u)
+  }
+
+  const handleDownvote = () => {
+    let toAdd = 0
+    if (upvoted) {
+      setUpvoted(d => !d)
+      toAdd -= 1
+    }
+    if (downvoted) {
+      toAdd += 1
+    } else {
+      toAdd -= 1
+    }
+    setScore(s => s + toAdd)
+    setDownvoted(d => !d)
+  }
 
   if (mode === 'student') {
     return (
@@ -43,7 +76,12 @@ function Review ({ review, mode, onSubmit }) {
             </p>
           </div>
           <div className='review-buttons'>
-            {token?.id === review?.student_id ? <EditButton token={token} review={review} onSubmit={onSubmit} /> : ''}
+            <div className='votes'>
+              <div className={upvoted ? 'upvote-filled' : 'upvote'} onClick={handleUpvote} />
+              <div className='score'>{score}</div>
+              <div className={downvoted ? 'downvote-filled' : 'downvote'} onClick={handleDownvote} />
+            </div>
+            {token?.id === review?.student_id ? <EditButton className='edit-button' token={token} review={review} onSubmit={onSubmit} /> : ''}
           </div>
         </div>
         <SpiderChart data1={{ values: qualities, label: 'All courses' }} style={{ height: 100, width: 100 }} detail={false} />
@@ -90,6 +128,13 @@ function Review ({ review, mode, onSubmit }) {
             <p>
               <strong>Text Review:</strong> {review.review}
             </p>
+          </div>
+          <div className='review-buttons'>
+            <div className='votes'>
+              <div className={upvoted ? 'upvote-filled' : 'upvote'} onClick={handleUpvote} />
+              <div className='score'>{score}</div>
+              <div className={downvoted ? 'downvote-filled' : 'downvote'} onClick={handleDownvote} />
+            </div>
           </div>
         </div>
         <SpiderChart data1={{ values: qualities, label: 'All courses' }} style={{ height: 100, width: 100 }} detail={false} />
