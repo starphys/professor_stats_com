@@ -13,31 +13,37 @@ function CreateAccount ({ setUserToken }) {
   const [studentEmail, setStudentEmail] = useState('')
   const [passwordMismatch, setPasswordMismatch] = useState(false)
   const [usernameInUse, setUsernameInUse] = useState(false)
+  const [invalidEmail, setInvalidEmail] = useState(false)
 
   const handleSignup = (e) => {
     e.preventDefault()
     setUsernameInUse(false)
+    setPasswordMismatch(false)
+    setInvalidEmail(false)
     if (password !== confirmPassword) {
       setPasswordMismatch(true)
-    } else {
-      setPasswordMismatch(false)
-      // TODO: hash passwords
-      const student = { first_name: firstName, last_name: lastName, email: studentEmail, username, password, verified: false }
-      fetch('http://localhost:3001/api/v1/students', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(student)
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.status === 'success') {
-            setUserToken(data.student)
-            navigate('/')
-          } else {
-            setUsernameInUse(true)
-          }
-        })
+      return
     }
+    if (!studentEmail.includes('@sjsu.edu')) {
+      setInvalidEmail(true)
+      return
+    }
+
+    const student = { first_name: firstName, last_name: lastName, email: studentEmail, username, password, verified: false }
+    fetch('http://localhost:3001/api/v1/students', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(student)
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          setUserToken(data.student)
+          navigate('/')
+        } else {
+          setUsernameInUse(true)
+        }
+      })
   }
 
   return (
@@ -118,6 +124,11 @@ function CreateAccount ({ setUserToken }) {
         {usernameInUse && (
           <div className='signup-password-mismatch'>
             Selected username is already in use!
+          </div>
+        )}
+        {invalidEmail && (
+          <div className='signup-password-mismatch'>
+            Please signup with a valid SJSU email.
           </div>
         )}
         <button type='submit' className='signup-button'>Sign up</button>
