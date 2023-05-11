@@ -44,7 +44,7 @@ const App = () => {
             <Route exact path='/login' element={<LoginPage setUserToken={setUserToken} />} />
             <Route exact path='/results' element={<Results searchResults={searchResults} searchType={searchType} setToCompare={setToCompare} />} />
             <Route exact path='/professor/:id' element={<ProfessorPage token={userToken} />} />
-            <Route exact path='/user/:username' element={<AccountPage token={userToken} />} />
+            <Route exact path='/user/:username' element={<AccountPage token={userToken} setToken={setUserToken} />} />
             <Route exact path='/compare' element={<ComparePage toCompare={toCompare} />} />
 
           </Routes>

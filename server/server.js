@@ -233,7 +233,7 @@ app.delete('/api/v1/professors/:id', async (req, res) => {
 // Access and update student records directly
 // Get all students
 app.get('/api/v1/students', (req, res) => {
-  const sql = 'SELECT * FROM student'
+  const sql = 'SELECT * FROM student WHERE hide_flag = 0'
   const params = []
   try {
     const students = db.prepare(sql).all(params)
@@ -262,7 +262,7 @@ app.get('/api/v1/students', (req, res) => {
 // Get one student by id
 app.get('/api/v1/students/:id', async (req, res) => {
   const { id } = req.params
-  const sql = 'SELECT * FROM student WHERE id = ?'
+  const sql = 'SELECT * FROM student WHERE id = ? AND hide_flag = 0'
   const params = [id]
   try {
     const student = db.prepare(sql).get(params)
@@ -291,7 +291,7 @@ app.get('/api/v1/students/:id', async (req, res) => {
 // Get one student by username
 app.get('/api/v1/students/user/:username', async (req, res) => {
   const { username } = req.params
-  const sql = 'SELECT * FROM student WHERE username = ?'
+  const sql = 'SELECT * FROM student WHERE username = ? AND hide_flag = 0'
   const params = [username]
   try {
     const student = db.prepare(sql).get(params)
@@ -382,10 +382,17 @@ app.put('/api/v1/students/:id', async (req, res) => {
 // Delete existing student by id
 app.delete('/api/v1/students/:id', async (req, res) => {
   const { id } = req.params
-  const sql = 'UPDATE student SET hide_flag=true WHERE id=? returning *'
+  const sql = 'UPDATE student SET hide_flag=1 WHERE id=? returning *'
   const params = [id]
+
+  const getReviewSql = `SELECT * FROM review WHERE student_id = ?`
+  
+  const setReviewSql = 'UPDATE review SET hide_flag=1 WHERE id = ? returning *'
+
   try {
     const student = db.prepare(sql).get(params)
+    const reviews = db.prepare(getReviewSql).all(params)
+    reviews.forEach(review => db.prepare(setReviewSql).get(review.id))
     if (student) {
       res.json({
         status: 'success',
@@ -409,10 +416,9 @@ app.delete('/api/v1/students/:id', async (req, res) => {
 })
 
 // Get login token
-// Add new student
 app.post('/api/v1/login', async (req, res) => {
   const { body } = req
-  const sql = 'SELECT * FROM student WHERE username = ? AND p_word = ?'
+  const sql = 'SELECT * FROM student WHERE username = ? AND p_word = ? AND hide_flag = 0'
   const params = [body.username, body.password]
   try {
     const student = db.prepare(sql).get(params)
@@ -700,8 +706,8 @@ app.put('/api/v1/reviews', async (req, res) => {
 app.delete('/api/v1/reviews', async (req, res) => {
   const { body } = req
 
-  const sql = 'UPDATE review SET hide_flag=? WHERE id = ? returning *'
-  const params = [1, body.id]
+  const sql = 'UPDATE review SET hide_flag=1 WHERE id = ? returning *'
+  const params = [body.id]
   try {
     const review = db.prepare(sql).get(params)
     if (!review) {

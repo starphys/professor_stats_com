@@ -4,7 +4,7 @@ import Popup from 'reactjs-popup'
 import '../styles/App.css'
 import ReviewForm from './ReviewForm'
 
-function EditButton ({ token, review, onSubmit }) {
+function DeleteButton ({ token, review, onSubmit }) {
   const [open, setOpen] = useState(false)
 
   const handleReview = (e) => {
@@ -29,4 +29,4 @@ function EditButton ({ token, review, onSubmit }) {
   )
 }
 
-export default EditButton
+export default DeleteButton
