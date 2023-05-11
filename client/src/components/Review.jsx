@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import SpiderChart from './SpiderChart'
 import EditButton from './EditButton'
+import DeleteButton from './DeleteButton'
 import { TokenContext } from '../App'
 
 function Review ({ review, mode, onSubmit }) {
@@ -82,6 +83,7 @@ function Review ({ review, mode, onSubmit }) {
               <div className={downvoted ? 'downvote-filled' : 'downvote'} onClick={handleDownvote} />
             </div>
             {token?.id === review?.student_id ? <EditButton className='edit-button' token={token} review={review} onSubmit={onSubmit} /> : ''}
+            {token?.id === review?.student_id ? <DeleteButton className='edit-button' token={token} review={review} onSubmit={onSubmit} /> : ''}
           </div>
         </div>
         <SpiderChart data1={{ values: qualities, label: 'All courses' }} style={{ height: 100, width: 100 }} detail={false} />

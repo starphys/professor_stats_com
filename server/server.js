@@ -91,7 +91,8 @@ app.get('/api/v1/professors/:id', async (req, res) => {
   const reviewSql = `SELECT review.*
                     FROM review
                     INNER JOIN course ON review.course_id = course.id
-                    WHERE review.professor_id = ?`
+                    WHERE review.professor_id = ? AND review.hide_flag = 0`
+                    
   const params = [id]
   try {
     // Get the professor data
@@ -100,6 +101,8 @@ app.get('/api/v1/professors/:id', async (req, res) => {
     const courses = db.prepare(courseSql).all(params)
     // Get reviews to calculate per-course reviews
     const reviews = db.prepare(reviewSql).all(params)
+
+    console.log(reviews)
 
     const course_reviews = courses.map((course) => {
       const averages = reviews.filter(review => course.id === review.course_id).reduce((sum, review) => {
@@ -454,7 +457,7 @@ app.get('/api/v1/reviews/professor/:id', async (req, res) => {
                 INNER JOIN student ON review.student_id = student.id
                 INNER JOIN course ON review.course_id = course.id
                 INNER JOIN school ON review.school_id = school.id
-                WHERE review.professor_id = ?`
+                WHERE review.professor_id = ? AND review.hide_flag = 0`
   const params = [id]
   try {
     const reviews = db.prepare(sql).all(params)
@@ -498,7 +501,7 @@ app.get('/api/v1/reviews/student/:id', async (req, res) => {
                 INNER JOIN student ON review.student_id = student.id
                 INNER JOIN course ON review.course_id = course.id
                 INNER JOIN school ON review.school_id = school.id
-                WHERE review.student_id = ?`
+                WHERE review.student_id = ? AND review.hide_flag = 0`
   const params = [id]
   try {
     const reviews = db.prepare(sql).all(params)
@@ -560,7 +563,7 @@ app.post('/api/v1/reviews', async (req, res) => {
                     INNER JOIN student ON review.student_id = student.id
                     INNER JOIN course ON review.course_id = course.id
                     INNER JOIN school ON review.school_id = school.id
-                    WHERE review.professor_id = ?`
+                    WHERE review.professor_id = ? AND review.hide_flag = 0`
     const revParams = [body.professor]
     const reviews = db.prepare(revSql).all(revParams)
     if (reviews.length < 0) {
@@ -643,7 +646,88 @@ app.put('/api/v1/reviews', async (req, res) => {
                     INNER JOIN student ON review.student_id = student.id
                     INNER JOIN course ON review.course_id = course.id
                     INNER JOIN school ON review.school_id = school.id
-                    WHERE review.professor_id = ?`
+                    WHERE review.professor_id = ? AND review.hide_flag = 0`
+    const revParams = [body.professor]
+    const reviews = db.prepare(revSql).all(revParams)
+    if (reviews.length < 0) {
+      res.json({
+        ok: false,
+        status: 'failure',
+        err: 'Not found'
+      })
+      return
+    }
+
+    const averages = reviews.reduce((sum, review) => {
+      return [
+        sum[0] + review.overall,
+        sum[1] + review.quality1,
+        sum[2] + review.quality2,
+        sum[3] + review.quality3,
+        sum[4] + review.quality4,
+        sum[5] + review.quality5
+      ]
+    }, [0, 0, 0, 0, 0, 0]).map((element) => element / reviews.length)
+
+    const profSql = 'UPDATE professor SET overall=?, quality1=?, quality2=?, quality3=?, quality4=?, quality5=? WHERE id=? returning *'
+    const profParams = [averages[0], averages[1], averages[2], averages[3], averages[4], averages[5], body.professor]
+    const professor = db.prepare(profSql).get(profParams)
+    if (!professor) {
+      res.json({
+        ok: false,
+        status: 'failure',
+        err: 'Not updated'
+      })
+      return
+    }
+    res.json({
+      status: 'success',
+      review,
+      reviews,
+      professor
+    })
+  } catch (err) {
+    console.log(err)
+    res.json({
+      ok: false,
+      status: 'failure',
+      err
+    })
+  }
+})
+
+// Update existing review
+app.delete('/api/v1/reviews', async (req, res) => {
+  const { body } = req
+
+  const sql = 'UPDATE review SET hide_flag=? WHERE id = ? returning *'
+  const params = [1, body.id]
+  try {
+    const review = db.prepare(sql).get(params)
+    if (!review) {
+      res.json({
+        ok: false,
+        status: 'failure',
+        err: 'Not added'
+      })
+      return
+    }
+
+    const revSql = `SELECT review.*, 
+                    professor.first_name AS professor_first,
+                    professor.last_name AS professor_last,
+                    student.first_name AS student_first,
+                    student.last_name AS student_last,
+                    student.username AS student_username,
+                    course.course_name,
+                    course.id,
+                    school.school_name
+                    FROM review
+                    INNER JOIN professor ON review.professor_id = professor.id
+                    INNER JOIN student ON review.student_id = student.id
+                    INNER JOIN course ON review.course_id = course.id
+                    INNER JOIN school ON review.school_id = school.id
+                    WHERE review.professor_id = ? AND review.hide_flag = 0`
     const revParams = [body.professor]
     const reviews = db.prepare(revSql).all(revParams)
     if (reviews.length < 0) {
