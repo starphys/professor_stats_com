@@ -695,3 +695,20 @@ h2 {
   margin-left: auto;
 }
 
+.report-link{
+  color:#00b7c2;
+  margin-left:auto;
+}
+
+.account-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.account-button-item {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 6px;
+}

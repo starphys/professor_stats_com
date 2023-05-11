@@ -19,7 +19,7 @@ function DeleteAccountButton ({ token, setToken }) {
   }
 
   return (
-    <div className='edit-button review-professor-container'>
+    <div className='account-button-item'>
       {open ? <button className='review-professor-button-red' onMouseLeave={() => setOpen(false)} onClick={handleDelete}>Confirm Delete</button> : <button className='review-professor-button' onMouseLeave={() => setOpen(false)} onClick={() => setOpen(true)}>Delete Account</button>}
     </div>
   )
