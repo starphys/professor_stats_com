@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 function DeleteAccountButton ({ token, setToken }) {
-    const navigate = useNavigate()
+  const navigate = useNavigate()
   const [open, setOpen] = useState(false)
 
   const handleDelete = (e) => {
@@ -10,7 +10,7 @@ function DeleteAccountButton ({ token, setToken }) {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' }
     })
-      .then(response => {console.log(response); return response.json()})
+      .then(response => { console.log(response); return response.json() })
       .then(data => {
         console.log(data)
         setToken(null)

@@ -11,7 +11,6 @@ function UpdateAccount ({ token, setToken }) {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [passwordMismatch, setPasswordMismatch] = useState(false)
 
-
   const handleSignup = (e) => {
     e.preventDefault()
 
@@ -32,11 +31,11 @@ function UpdateAccount ({ token, setToken }) {
         if (data.status === 'success') {
           setToken(data.student)
           navigate(`/user/${token.username}`)
-        } 
+        }
       })
   }
 
-  if(token === null) {
+  if (token === null) {
     navigate('/')
   }
 

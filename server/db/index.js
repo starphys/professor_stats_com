@@ -34,13 +34,12 @@ try {
     .run('Bill', 'Computer', 'PhD Computer Science', 0, 0, 0, 0, 0, 0)
   db.prepare('INSERT INTO professor (first_name, last_name, degrees, overall, quality1, quality2, quality3, quality4, quality5) VALUES (?,?,?,?,?,?,?,?,?)')
     .run('Carl', 'Sagan', 'BA, BS Physics, MS Physics, PhD Astronomy and Astrophysics', 0, 0, 0, 0, 0, 0)
-    db.prepare('INSERT INTO professor (first_name, last_name, degrees, overall, quality1, quality2, quality3, quality4, quality5) VALUES (?,?,?,?,?,?,?,?,?)')
+  db.prepare('INSERT INTO professor (first_name, last_name, degrees, overall, quality1, quality2, quality3, quality4, quality5) VALUES (?,?,?,?,?,?,?,?,?)')
     .run('David', 'Taylor', 'BS in Computer Science, MS in Computer Science, PhD in Computer Science', 0, 0, 0, 0, 0, 0)
   db.prepare('INSERT INTO professor (first_name, last_name, degrees, overall, quality1, quality2, quality3, quality4, quality5) VALUES (?,?,?,?,?,?,?,?,?)')
     .run('Suma', 'Bhat', 'BS in Statistics, ME in Electrical Engineering, PhD in Computer Engineering', 0, 0, 0, 0, 0, 0)
-  
 } catch (err) {
-  if (err.message.search('already exists') === -1) {  
+  if (err.message.search('already exists') === -1) {
     console.log('Failed to create professor table.')
     console.log(err)
   }
@@ -86,7 +85,6 @@ try {
     .run('Ishie', 'Eswar', 'ishie.eswar@sjsu.edu', 'ishie', 'CMPE133', 1)
   db.prepare('INSERT INTO student (first_name, last_name, email, username, p_word, verified) VALUES (?,?,?,?,?,?)')
     .run('Brenda', 'Song', 'brenda.song@sjsu.edu', 'sjsu4lyfe', 'password', 1)
-     
 } catch (err) {
   if (err.message.search('already exists') === -1) {
     console.log('Failed to create student table.')

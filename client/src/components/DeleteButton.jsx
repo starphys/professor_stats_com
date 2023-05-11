@@ -1,8 +1,4 @@
-import React, { useContext, useState } from 'react'
-import { LabelsContext } from '../App'
-import Popup from 'reactjs-popup'
-import '../styles/App.css'
-import ReviewForm from './ReviewForm'
+import React, { useState } from 'react'
 
 function DeleteButton ({ token, review, onSubmit }) {
   const [open, setOpen] = useState(false)
@@ -23,7 +19,7 @@ function DeleteButton ({ token, review, onSubmit }) {
   }
 
   return (
-    <div className='edit-button review-professor-container'>
+    <div className='delete-button review-professor-container'>
       {open ? <button className='review-professor-button-red' onMouseLeave={() => setOpen(false)} onClick={handleReview}>Confirm Delete</button> : <button className='review-professor-button' onMouseLeave={() => setOpen(false)} onClick={() => setOpen(true)}>Delete Review</button>}
     </div>
   )

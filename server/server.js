@@ -92,7 +92,7 @@ app.get('/api/v1/professors/:id', async (req, res) => {
                     FROM review
                     INNER JOIN course ON review.course_id = course.id
                     WHERE review.professor_id = ? AND review.hide_flag = 0`
-                    
+
   const params = [id]
   try {
     // Get the professor data
@@ -383,8 +383,8 @@ app.delete('/api/v1/students/:id', async (req, res) => {
   const sql = 'UPDATE student SET hide_flag=1 WHERE id=? returning *'
   const params = [id]
 
-  const getReviewSql = `SELECT * FROM review WHERE student_id = ?`
-  
+  const getReviewSql = 'SELECT * FROM review WHERE student_id = ?'
+
   const setReviewSql = 'UPDATE review SET hide_flag=1 WHERE id = ? returning *'
 
   try {

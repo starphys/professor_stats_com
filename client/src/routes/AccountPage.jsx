@@ -93,8 +93,8 @@ function AccountPage ({ token, setToken }) {
         <div className='professor-details'>
           <h2>{student.username}</h2>
           <div className='account-buttons'>
-            {token?.id === student?.id &&     <div className='account-button-item'><button className='review-professor-button' onClick={() => navigate('/update')}>Update Account</button></div>}
-            {token?.id === student?.id && <DeleteAccountButton token={token} setToken={setToken}/>}
+            {token?.id === student?.id && <div className='account-button-item'><button className='review-professor-button' onClick={() => navigate('/update')}>Update Account</button></div>}
+            {token?.id === student?.id && <DeleteAccountButton token={token} setToken={setToken} />}
             {token?.id === student?.id && <div className='account-button-item'><a className='report-link' href='mailto: complaints@profstats.com'>File a Report</a></div>}
           </div>
         </div>

@@ -23,7 +23,7 @@ const App = () => {
   const [toCompare, setToCompare] = useState(JSON.parse(localStorage.getItem('toCompare')) || [])
 
   useEffect(() => {
-    console.log("token", userToken)
+    console.log('token', userToken)
     localStorage.setItem('userToken', JSON.stringify(userToken))
   }, [userToken])
 
@@ -49,7 +49,6 @@ const App = () => {
             <Route exact path='/user/:username' element={<AccountPage token={userToken} setToken={setUserToken} />} />
             <Route exact path='/compare' element={<ComparePage toCompare={toCompare} />} />
             <Route exact path='/update' element={<UpdateAccount token={userToken} setToken={setUserToken} />} />
-      
 
           </Routes>
         </Router>
