@@ -9,7 +9,7 @@ body {
   color: #ffffff;
   padding: 10%;
   padding-top: 1%;
-  overflow-y: auto;
+  overflow-y: scroll;
 }
 
 .results-footer {

@@ -79,6 +79,7 @@ const ProfessorPage = ({ token }) => {
       </div>
       {token && token.id && <ReviewPopup token={token} professor={professor} setRefresh={setRefresh} courses={courses} />}
       <h3>Reviews:</h3>
+      {reviews.length < 1 && <div className='review-component'>No reviews found.</div>}
       {reviews.toReversed().filter(review => courseSelection === 0 || review.course_id === courseSelection).map((review) => (
         <Review review={review} key={uuidv4()} mode='professor' />
       ))}
