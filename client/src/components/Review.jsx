@@ -1,15 +1,27 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import SpiderChart from './SpiderChart'
 import EditButton from './EditButton'
 import DeleteButton from './DeleteButton'
 import { TokenContext } from '../App'
 
 function Review ({ review, mode, onSubmit }) {
+  console.log(onSubmit)
   const qualities = [review.overall, review.quality1, review.quality2, review.quality3, review.quality4, review.quality5].map(e => e / 100)
   const [token] = useContext(TokenContext)
   const [upvoted, setUpvoted] = useState(false)
   const [downvoted, setDownvoted] = useState(false)
-  const [score, setScore] = useState(0)
+  const [score, setScore] = useState(review.score)
+
+  useEffect(() => {
+    if (score === review.score) { return }
+    const newReview = { score }
+    fetch(`http://localhost:3001/api/v1/reviews/score/${review.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newReview)
+    })
+      .then(response => response.json())
+  }, [score, review.id])
 
   const handleUpvote = () => {
     let toAdd = 0

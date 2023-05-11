@@ -532,6 +532,37 @@ app.get('/api/v1/reviews/student/:id', async (req, res) => {
   }
 })
 
+// Store review score in database
+app.put('/api/v1/reviews/score/:id', async (req, res) => {
+  const { id } = req.params
+  const { body } = req
+  const sql = 'UPDATE review SET score=? WHERE id=? returning *'
+  const params = [body.score, id]
+
+  try {
+    const review = db.prepare(sql).get(params)
+    if (review) {
+      res.json({
+        status: 'success',
+        review
+      })
+    } else {
+      res.json({
+        ok: false,
+        status: 'failure',
+        err: 'Not found'
+      })
+    }
+  } catch (err) {
+    console.log(err)
+    res.json({
+      ok: false,
+      status: 'failure',
+      err
+    })
+  }
+})
+
 // Add new review
 app.post('/api/v1/reviews', async (req, res) => {
   const { body } = req

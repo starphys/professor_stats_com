@@ -104,6 +104,8 @@ try {
               quality4 numeric not null,
               quality5 numeric not null,
 
+              score numeric not null default 0,
+
               course_id int not null,
               school_id int not null,
               professor_id int not null,
