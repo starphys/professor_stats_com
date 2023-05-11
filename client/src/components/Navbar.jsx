@@ -1,5 +1,4 @@
 import { Link, useMatch, useResolvedPath } from 'react-router-dom'
-import Logout from './Logout'
 
 function Navbar ({ token, setUserToken }) {
   return (
@@ -11,7 +10,7 @@ function Navbar ({ token, setUserToken }) {
         {token ? '' : <CustomLink to='/signup'>Sign up</CustomLink>}
         {token ? '' : <CustomLink to='/login'>Log in</CustomLink>}
         {token ? <CustomLink to={`/user/${token.username}`}>Account</CustomLink> : ''}
-        {token ? <Logout setUserToken={setUserToken} /> : ''}
+        {token ? <CustomLink to='/login' onClick={() => setUserToken(null)}>Logout</CustomLink> : ''}
       </ul>
     </nav>
   )

@@ -10,7 +10,7 @@ function EditButton ({ token, review, onSubmit }) {
 
   const handleReview = (e) => {
     setOpen(false)
-    /* Put review in database, update professor. */
+
     const newReview = { id: review.id, review: e.text, scores: e.scores, course: review.course_id, school: review.school_id, professor: review.professor_id, student: token.id }
     fetch('http://localhost:3001/api/v1/reviews', {
       method: 'PUT',
@@ -25,7 +25,7 @@ function EditButton ({ token, review, onSubmit }) {
 
   return (
     <>
-      <div className='review-professor-container'><button className='review-professor-button' onClick={() => setOpen(true)}>Edit Review</button></div>
+      <div className='edit-button review-professor-container'><button className='review-professor-button' onClick={() => setOpen(true)}>Edit Review</button></div>
       <Popup open={open} onClose={() => setOpen(false)} modal nested>
         <ReviewForm labels={labels} original={review} onSubmit={handleReview} />
       </Popup>

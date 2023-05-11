@@ -31,11 +31,16 @@ try {
               hide_flag boolean not null default false);`)
     .run()
   db.prepare('INSERT INTO professor (first_name, last_name, degrees, overall, quality1, quality2, quality3, quality4, quality5) VALUES (?,?,?,?,?,?,?,?,?)')
-    .run('Fake', 'Professor', 'PhD Computer Science', 500, 500, 500, 500, 500, 500)
+    .run('Bill', 'Computer', 'PhD Computer Science', 0, 0, 0, 0, 0, 0)
   db.prepare('INSERT INTO professor (first_name, last_name, degrees, overall, quality1, quality2, quality3, quality4, quality5) VALUES (?,?,?,?,?,?,?,?,?)')
-    .run('Carl', 'Sagan', 'BA, BS Physics, MS Physics, PhD Astronomy and Astrophysics', 500, 500, 500, 500, 500, 500)
+    .run('Carl', 'Sagan', 'BA, BS Physics, MS Physics, PhD Astronomy and Astrophysics', 0, 0, 0, 0, 0, 0)
+    db.prepare('INSERT INTO professor (first_name, last_name, degrees, overall, quality1, quality2, quality3, quality4, quality5) VALUES (?,?,?,?,?,?,?,?,?)')
+    .run('David', 'Taylor', 'BS in Computer Science, MS in Computer Science, PhD in Computer Science', 0, 0, 0, 0, 0, 0)
+  db.prepare('INSERT INTO professor (first_name, last_name, degrees, overall, quality1, quality2, quality3, quality4, quality5) VALUES (?,?,?,?,?,?,?,?,?)')
+    .run('Suma', 'Bhat', 'BS in Statistics, ME in Electrical Engineering, PhD in Computer Engineering', 0, 0, 0, 0, 0, 0)
+  
 } catch (err) {
-  if (err.message.search('already exists') === -1) {
+  if (err.message.search('already exists') === -1) {  
     console.log('Failed to create professor table.')
     console.log(err)
   }
@@ -55,6 +60,8 @@ try {
     .run('CMPE 165', 1)
   db.prepare('INSERT INTO course (course_name, school_id) VALUES (?,?)')
     .run('PHYS 50', 1)
+  db.prepare('INSERT INTO course (course_name, school_id) VALUES (?,?)')
+    .run('CS 146', 1)
 } catch (err) {
   if (err.message.search('already exists') === -1) {
     console.log('Failed to create course table.')
@@ -74,10 +81,15 @@ try {
               hide_flag boolean not null default false);`)
     .run()
   db.prepare('INSERT INTO student (first_name, last_name, email, username, p_word, verified) VALUES (?,?,?,?,?,?)')
-    .run('Fake', 'Student', 'fake@school.edu', 'fakestudent', 'fakepassword', 1)
+    .run('Sally', 'Student', 'sally.student@sjsu.edu', 'sally', 'password', 1)
+  db.prepare('INSERT INTO student (first_name, last_name, email, username, p_word, verified) VALUES (?,?,?,?,?,?)')
+    .run('Ishie', 'Eswar', 'ishie.eswar@sjsu.edu', 'ishie', 'CMPE133', 1)
+  db.prepare('INSERT INTO student (first_name, last_name, email, username, p_word, verified) VALUES (?,?,?,?,?,?)')
+    .run('Brenda', 'Song', 'brenda.song@sjsu.edu', 'sjsu4lyfe', 'password', 1)
+     
 } catch (err) {
   if (err.message.search('already exists') === -1) {
-    console.log('Failed to create stduent table.')
+    console.log('Failed to create student table.')
     console.log(err)
   }
 }
@@ -127,6 +139,18 @@ try {
     .run(2, 1)
   db.prepare('INSERT INTO course_professor (course_id, professor_id) VALUES (?,?)')
     .run(3, 2)
+  db.prepare('INSERT INTO course_professor (course_id, professor_id) VALUES (?,?)')
+    .run(1, 3)
+  db.prepare('INSERT INTO course_professor (course_id, professor_id) VALUES (?,?)')
+    .run(2, 3)
+  db.prepare('INSERT INTO course_professor (course_id, professor_id) VALUES (?,?)')
+    .run(4, 3)
+  db.prepare('INSERT INTO course_professor (course_id, professor_id) VALUES (?,?)')
+    .run(1, 4)
+  db.prepare('INSERT INTO course_professor (course_id, professor_id) VALUES (?,?)')
+    .run(2, 4)
+  db.prepare('INSERT INTO course_professor (course_id, professor_id) VALUES (?,?)')
+    .run(4, 4)
 } catch (err) {
   if (err.message.search('already exists') === -1) {
     console.log('Failed to create course_professor table.')
@@ -144,6 +168,10 @@ try {
     .run(1, 1)
   db.prepare('INSERT INTO school_professor (school_id, professor_id) VALUES (?,?)')
     .run(1, 2)
+  db.prepare('INSERT INTO school_professor (school_id, professor_id) VALUES (?,?)')
+    .run(1, 3)
+  db.prepare('INSERT INTO school_professor (school_id, professor_id) VALUES (?,?)')
+    .run(1, 4)
 } catch (err) {
   if (err.message.search('already exists') === -1) {
     console.log('Failed to create school_professor table.')

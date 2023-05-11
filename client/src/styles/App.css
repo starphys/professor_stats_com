@@ -9,7 +9,7 @@ body {
   color: #ffffff;
   padding: 10%;
   padding-top: 1%;
-  overflow-y: auto;
+  overflow-y: scroll;
 }
 
 .results-footer {
@@ -242,31 +242,6 @@ body {
   border: 1px solid #008080;
 }
 
-.logout-button {
-  margin-top: 5px;
-  margin-bottom: 5px;
-  padding: 10px;
-  font-size: 0.9rem;
-  border-radius: 5px;
-  border: none;
-  background-color: #008080;
-  color: #fff;
-  cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-.logout-button:hover {
-  background-color: red;
-  color: white;
-  border: 1px solid #008080;
-}
-
-.logout-button:active {
-  background-color: pink;
-  color: white;
-  transform: translateY(1px);
-}
-
 .nav-container {
   width: 98%;
   background-color: #333;
@@ -433,9 +408,6 @@ h2 {
   color: #fff;
 }
 
-
-
-
 .review-container {
   display: flex;
   flex-direction: column;
@@ -575,6 +547,13 @@ h2 {
   border: 1px solid #008080;
 }
 
+.review-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
 .student-picture {
   display: flex;
   flex-direction: column;
@@ -627,3 +606,67 @@ h2 {
   margin-right: 10px;
   margin-left: -9px;
 }
+
+.upvote {
+  width: 0;
+  height: 0;
+  border: 7px solid transparent;
+  border-top: 0;
+  border-bottom: 16px solid #1c1f2b;
+}
+
+.upvote:hover {
+  width: 0;
+  height: 0;
+  border: 7px solid transparent;
+  border-top: 0;
+  border-bottom: 16px solid rgba(64, 224, 208, 1);
+} 
+
+.upvote-filled {
+  width: 0;
+  height: 0;
+  border: 7px solid transparent;
+  border-top: 0;
+  border-bottom: 16px solid rgba(64, 224, 208, 1);
+}
+
+.downvote {
+  width: 0;
+  height: 0;
+  border: 7px solid transparent;
+  border-top: 16px solid #1c1f2b;
+  border-bottom: 0;
+}
+
+.downvote:hover {
+  width: 0;
+  height: 0;
+  border: 7px solid transparent;
+  border-top: 16px solid rgba(208, 64, 64, 1);
+  border-bottom: 0;
+} 
+
+.downvote-filled {
+  width: 0;
+  height: 0;
+  border: 7px solid transparent;
+  border-top: 16px solid rgba(208, 64, 64, 1);
+  border-bottom: 0;
+} 
+
+.votes {
+  display:flex;
+  width: 60px;
+  justify-content: space-between;
+  margin-right: auto;
+}
+
+.edit-button {
+  margin-right: auto;
+}
+
+.delete-button {
+  margin-left: auto;
+}
+

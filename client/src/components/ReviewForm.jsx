@@ -13,8 +13,11 @@ function ReviewForm ({ onSubmit, labels, original, courses }) {
         original.quality3, original.quality4, original.quality5].map(e => e / 100)
     : [5, 5, 5, 5, 5, 5])
   const [text, setText] = useState(original ? original.review : '')
-  const [course, setCourse] = useState(original ? original.course : '')
+  const [course, setCourse] = useState(original ? original.course_name : '')
+  const [courseList] = useState(courses || (original ? [{ id: original.course_id, name: original.course_name }] : []))
   const [warn, setWarn] = useState(false)
+
+  console.log(original)
 
   const handleScoreChange = (index, value) => {
     const newScores = [...scores]
@@ -41,7 +44,7 @@ function ReviewForm ({ onSubmit, labels, original, courses }) {
           <label>Course</label>
           <select value={course} onChange={e => setCourse(Number(e.target.value))}>
             <option disabled value=''> -- Select a Class -- </option>
-            {courses && courses.filter(course => course.id !== 0).map(course => <option key={course.id} value={course.id}>{course.name}</option>)}
+            {courseList && courseList.filter(course => course.id !== 0).map(course => <option key={course.id} value={course.id}>{course.name}</option>)}
           </select>
         </div>
         {labels && labels.map((label, i) => {
