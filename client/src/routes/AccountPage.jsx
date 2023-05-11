@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Review from '../components/Review'
 import DeleteAccountButton from '../components/DeleteAccountButton'
 import { v4 as uuidv4 } from 'uuid'
 
 function AccountPage ({ token, setToken }) {
+  const navigate = useNavigate()
   const { username } = useParams()
   const [student, setStudent] = useState(null)
   const [reviews, setReviews] = useState([])
@@ -91,7 +92,7 @@ function AccountPage ({ token, setToken }) {
         </div>
         <div className='professor-details'>
           <h2>{student.username}</h2>
-          {/* <ChangePasswordButton /> */}
+          {token?.id === student?.id &&     <div className='edit-button review-professor-container'><button className='review-professor-button' onClick={() => navigate('/update')}>Update Account</button></div>}
           {token?.id === student?.id && <DeleteAccountButton token={token} setToken={setToken}/>}
 
           <div className='ratings-container' />

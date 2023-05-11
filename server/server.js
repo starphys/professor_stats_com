@@ -351,8 +351,8 @@ app.put('/api/v1/students/:id', async (req, res) => {
   const { id } = req.params
   const { body } = req
   // Can only change name right now
-  const sql = 'UPDATE student SET first_name=?, last_name=? WHERE id=? returning *'
-  const params = [body.first_name, body.last_name, id]
+  const sql = 'UPDATE student SET first_name=?, last_name=?, p_word=? WHERE id=? returning *'
+  const params = [body.first_name, body.last_name, body.password, id]
   try {
     const student = db.prepare(sql).get(params)
     if (student) {
@@ -376,8 +376,6 @@ app.put('/api/v1/students/:id', async (req, res) => {
     })
   }
 })
-
-// TODO: Update existing student with new password
 
 // Delete existing student by id
 app.delete('/api/v1/students/:id', async (req, res) => {
