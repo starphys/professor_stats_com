@@ -102,8 +102,6 @@ app.get('/api/v1/professors/:id', async (req, res) => {
     // Get reviews to calculate per-course reviews
     const reviews = db.prepare(reviewSql).all(params)
 
-    console.log(reviews)
-
     const course_reviews = courses.map((course) => {
       const averages = reviews.filter(review => course.id === review.course_id).reduce((sum, review) => {
         return [
@@ -454,7 +452,7 @@ app.get('/api/v1/reviews/professor/:id', async (req, res) => {
                 student.last_name AS student_last,
                 student.username AS student_username,
                 course.course_name,
-                course.id,
+                course.id AS course_id,
                 school.school_name
                 FROM review
                 INNER JOIN professor ON review.professor_id = professor.id
@@ -488,6 +486,57 @@ app.get('/api/v1/reviews/professor/:id', async (req, res) => {
   }
 })
 
+app.get('/api/v1/reviews/:id', async(req, res) => {
+  const {id} = req.params
+  const sql = `SELECT review.*, 
+    professor.first_name AS professor_first,
+    professor.last_name AS professor_last,
+    student.first_name AS student_first,
+    student.last_name AS student_last,
+    student.username AS student_username,
+    course.course_name,
+    course.id AS course_id,
+    school.school_name
+    FROM review
+    INNER JOIN professor ON review.professor_id = professor.id
+    INNER JOIN student ON review.student_id = student.id
+    INNER JOIN course ON review.course_id = course.id
+    INNER JOIN school ON review.school_id = school.id
+    WHERE review.student_id = ? AND review.hide_flag = 0`
+  const params = [id]
+  try {
+    const review = db.prepare(sql).all(params)
+    res.json({review})
+  }
+  catch (e) {
+    console.log(e)
+  }
+})
+
+app.get('/api/v1/reviews/', async(req, res) => {
+  const sql = `SELECT review.*, 
+    professor.first_name AS professor_first,
+    professor.last_name AS professor_last,
+    student.first_name AS student_first,
+    student.last_name AS student_last,
+    student.username AS student_username,
+    course.course_name,
+    course.id AS course_id,
+    school.school_name
+    FROM review
+    INNER JOIN professor ON review.professor_id = professor.id
+    INNER JOIN student ON review.student_id = student.id
+    INNER JOIN course ON review.course_id = course.id
+    INNER JOIN school ON review.school_id = school.id`
+  try {
+    const reviews = db.prepare(sql).all([])
+    res.json({reviews})
+  }
+  catch (e) {
+    console.log(e)
+  }
+})
+
 // Get reviews by student id
 app.get('/api/v1/reviews/student/:id', async (req, res) => {
   const { id } = req.params
@@ -498,7 +547,7 @@ app.get('/api/v1/reviews/student/:id', async (req, res) => {
                 student.last_name AS student_last,
                 student.username AS student_username,
                 course.course_name,
-                course.id,
+                course.id AS course_id,
                 school.school_name
                 FROM review
                 INNER JOIN professor ON review.professor_id = professor.id
@@ -591,7 +640,7 @@ app.post('/api/v1/reviews', async (req, res) => {
                     student.last_name AS student_last,
                     student.username AS student_username,
                     course.course_name,
-                    course.id,
+                    course.id AS course_id,
                     school.school_name
                     FROM review
                     INNER JOIN professor ON review.professor_id = professor.id
@@ -674,7 +723,7 @@ app.put('/api/v1/reviews', async (req, res) => {
                     student.last_name AS student_last,
                     student.username AS student_username,
                     course.course_name,
-                    course.id,
+                    course.id AS course_id,
                     school.school_name
                     FROM review
                     INNER JOIN professor ON review.professor_id = professor.id
@@ -755,7 +804,7 @@ app.delete('/api/v1/reviews', async (req, res) => {
                     student.last_name AS student_last,
                     student.username AS student_username,
                     course.course_name,
-                    course.id,
+                    course.id AS course_id,
                     school.school_name
                     FROM review
                     INNER JOIN professor ON review.professor_id = professor.id
