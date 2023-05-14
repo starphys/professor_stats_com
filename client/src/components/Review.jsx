@@ -21,7 +21,7 @@ function Review ({ review, mode, onSubmit }) {
       body: JSON.stringify(newReview)
     })
       .then(response => response.json())
-  }, [score, review.id])
+  }, [score, review.id, review.score])
 
   const handleUpvote = () => {
     let toAdd = 0
