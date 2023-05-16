@@ -95,11 +95,12 @@ function AccountPage ({ token, setToken }) {
           <div className='account-buttons'>
             {token?.id === student?.id && <div className='account-button-item'><button className='review-professor-button' onClick={() => navigate('/update')}>Update Account</button></div>}
             {token?.id === student?.id && <DeleteAccountButton token={token} setToken={setToken} />}
-            {token?.id === student?.id && <div className='account-button-item'><a className='report-link' href='mailto: complaints@profstats.com'>File a Report</a></div>}
+            <div className='account-button-item'><a className='report-link' href='mailto: complaints@profstats.com'>File a Report</a></div>
           </div>
         </div>
       </div>
       <h3>Reviews:</h3>
+      {reviews.length < 1 && <div className='review-component'>No reviews found.</div>}
       {reviews.toReversed().map((review) => (
         <Review review={review} key={uuidv4()} mode='student' onSubmit={onSubmit} />
       ))}

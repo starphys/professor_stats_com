@@ -832,7 +832,7 @@ app.delete('/api/v1/reviews', async (req, res) => {
         sum[4] + review.quality4,
         sum[5] + review.quality5
       ]
-    }, [0, 0, 0, 0, 0, 0]).map((element) => element / reviews.length)
+    }, [0, 0, 0, 0, 0, 0]).map((element) => reviews.length > 0 ? element / reviews.length : 0)
 
     const profSql = 'UPDATE professor SET overall=?, quality1=?, quality2=?, quality3=?, quality4=?, quality5=? WHERE id=? returning *'
     const profParams = [averages[0], averages[1], averages[2], averages[3], averages[4], averages[5], body.professor]
