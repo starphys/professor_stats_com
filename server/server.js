@@ -486,8 +486,8 @@ app.get('/api/v1/reviews/professor/:id', async (req, res) => {
   }
 })
 
-app.get('/api/v1/reviews/:id', async(req, res) => {
-  const {id} = req.params
+app.get('/api/v1/reviews/:id', async (req, res) => {
+  const { id } = req.params
   const sql = `SELECT review.*, 
     professor.first_name AS professor_first,
     professor.last_name AS professor_last,
@@ -506,14 +506,13 @@ app.get('/api/v1/reviews/:id', async(req, res) => {
   const params = [id]
   try {
     const review = db.prepare(sql).all(params)
-    res.json({review})
-  }
-  catch (e) {
+    res.json({ review })
+  } catch (e) {
     console.log(e)
   }
 })
 
-app.get('/api/v1/reviews/', async(req, res) => {
+app.get('/api/v1/reviews/', async (req, res) => {
   const sql = `SELECT review.*, 
     professor.first_name AS professor_first,
     professor.last_name AS professor_last,
@@ -530,9 +529,8 @@ app.get('/api/v1/reviews/', async(req, res) => {
     INNER JOIN school ON review.school_id = school.id`
   try {
     const reviews = db.prepare(sql).all([])
-    res.json({reviews})
-  }
-  catch (e) {
+    res.json({ reviews })
+  } catch (e) {
     console.log(e)
   }
 })
