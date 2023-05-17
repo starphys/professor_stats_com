@@ -4,6 +4,9 @@ ProfStats is a professor reviews service where students can score their past pro
 ## Prerequisites:
 Download and install the LTS version of Node.js here: https://nodejs.org/en
 
+## Prepopulated Data
+This repository includes a prepopulated database with a small number of professors, reviewers, courses, and reviews. 
+
 ## Install and Run
 In a git-enabled terminal, execute the following commands:  
 `git clone https://github.com/starphys/professor_stats_com.git`  
